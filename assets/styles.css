@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ==========================================================================
-   DESIGN TOKENS — MODERN LUXURY NEUTRAL (WHITE, GREY, BEIGE, CHARCOAL & RUIA PRESTIGE)
+   DESIGN TOKENS — MODERN RUIA RED & LUXURY NEUTRAL PALETTE
    ========================================================================== */
 :root {
   /* Surfaces */
@@ -13,10 +13,10 @@
   --rui-surface-warm: #FAF8F5;
   --rui-surface-beige: #F4EFEA;
   
-  /* Text & Ink (CRITICAL: Sharp, high-contrast, zero white-on-light) */
+  /* Text & Ink (CRITICAL: Sharp, high-contrast, zero black-on-black or white-on-white) */
   --rui-ink-strong: #0F172A;
   --rui-ink: #1E293B;
-  --rui-ink-secondary: #475569;
+  --rui-ink-secondary: #334155;
   --rui-ink-muted: #64748B;
   --rui-ink-subtle: #94A3B8;
   
@@ -26,14 +26,21 @@
   --rui-border-warm: #E6DFD5;
   --rui-border-gold: rgba(197, 160, 89, 0.45);
   
-  /* Prestige Accents */
+  /* Prestige Ruia Crimson & Red Palette */
+  --rui-red-deep: #4A0E17;
   --rui-maroon: #701A24;
-  --rui-maroon-dark: #4A0E16;
+  --rui-maroon-dark: #38050B;
   --rui-maroon-light: #8E212E;
+  --rui-red-vibrant: #A51D2D;
   --rui-maroon-subtle: #FDF2F4;
+  
+  /* Metallic Gold Accents */
   --rui-gold: #C5A059;
   --rui-gold-light: #F7F1E5;
   --rui-gold-dark: #97732C;
+  --rui-gold-accent: #E5C383;
+  
+  /* Status Accents */
   --rui-emerald: #059669;
   --rui-emerald-subtle: #ECFDF5;
   --rui-amber: #D97706;
@@ -50,7 +57,7 @@
   --rui-radius-sm: 8px;
   --rui-radius-md: 12px;
   --rui-radius-lg: 16px;
-  --rui-radius-xl: 24px;
+  --rui-radius-xl: 22px;
   --rui-radius-pill: 9999px;
   
   /* Transitions */
@@ -65,8 +72,8 @@
 .stApp {
   background-color: var(--rui-bg);
   background-image: 
-    radial-gradient(at 100% 0%, rgba(197, 160, 89, 0.07) 0px, transparent 40%),
-    radial-gradient(at 0% 100%, rgba(112, 26, 36, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(197, 160, 89, 0.08) 0px, transparent 45%),
+    radial-gradient(at 0% 100%, rgba(112, 26, 36, 0.05) 0px, transparent 50%),
     linear-gradient(180deg, #FAF9F6 0%, #F8FAFC 100%);
   color: var(--rui-ink);
   font-family: 'Plus Jakarta Sans', 'DM Sans', -apple-system, sans-serif;
@@ -74,17 +81,17 @@
   line-height: 1.6;
 }
 
-/* Main Container Padding & Top Spacing */
+/* Main Container Padding */
 .stMainBlockContainer {
-  padding-top: 1.5rem !important;
+  padding-top: 1.25rem !important;
   padding-bottom: 3rem !important;
-  max-width: 1400px !important;
+  max-width: 1420px !important;
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: #F1F5F9;
@@ -98,7 +105,7 @@
 }
 
 /* ==========================================================================
-   STRICT READABILITY & TEXT CONTRAST ENFORCEMENT (NO WHITE ON LIGHT)
+   STRICT READABILITY & TEXT CONTRAST (ZERO INVISIBLE OR BLACK-ON-BLACK TEXT)
    ========================================================================== */
 .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
   color: var(--rui-ink-strong) !important;
@@ -107,18 +114,9 @@
   letter-spacing: -0.025em;
 }
 
-.stApp h1 {
-  font-size: 2.2rem;
-  line-height: 1.25;
-}
-.stApp h2 {
-  font-size: 1.6rem;
-  line-height: 1.3;
-}
-.stApp h3 {
-  font-size: 1.25rem;
-  line-height: 1.4;
-}
+.stApp h1 { font-size: 2.2rem; line-height: 1.25; }
+.stApp h2 { font-size: 1.6rem; line-height: 1.3; }
+.stApp h3 { font-size: 1.25rem; line-height: 1.4; }
 
 .stApp p, .stApp span, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
   color: var(--rui-ink) !important;
@@ -129,58 +127,45 @@
 }
 
 /* ==========================================================================
-   TOP HORIZONTAL NAVIGATION BAR (THE MODERN HEADER DOCK)
+   STYLISH RED TOP HORIZONTAL NAVBAR
    ========================================================================== */
 .rui-top-navbar {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--rui-border-light);
-  border-radius: var(--rui-radius-xl);
-  padding: 10px 20px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  position: relative;
-  z-index: 100;
-  animation: ruiSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(135deg, #4A0E17 0%, #6E121E 45%, #8B0000 100%) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+  border-radius: var(--rui-radius-xl) !important;
+  padding: 14px 22px !important;
+  margin-bottom: 18px !important;
+  box-shadow: 0 10px 32px rgba(74, 14, 23, 0.32), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  position: relative !important;
+  z-index: 100 !important;
+  animation: ruiSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 @keyframes ruiSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Brand Logo + Wordmark in Top Nav */
+/* Brand Box in Red Navbar */
 .rui-brand-box {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none;
 }
 
 .rui-brand-logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  border: 1.5px solid var(--rui-gold);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid #F3E5C8;
   object-fit: contain;
   background: #FFFFFF;
   padding: 2px;
-  box-shadow: var(--rui-shadow-xs);
-  transition: var(--rui-transition-smooth);
-}
-
-.rui-brand-logo:hover {
-  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .rui-brand-text {
@@ -190,64 +175,54 @@
 
 .rui-brand-title {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  color: var(--rui-maroon) !important;
+  color: #FFFFFF !important;
   line-height: 1.1;
   letter-spacing: -0.03em;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .rui-brand-tag {
-  background: var(--rui-gold-light);
-  color: var(--rui-gold-dark) !important;
-  font-size: 0.65rem;
+  background: #F3E5C8;
+  color: #520D15 !important;
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: var(--rui-radius-pill);
   letter-spacing: 0.05em;
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .rui-brand-subtitle {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 600;
-  color: var(--rui-ink-muted) !important;
+  color: #F8E7C4 !important;
   letter-spacing: 0.02em;
 }
 
-/* RUI Quick Pill Chips on Right side of Header */
-.rui-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+/* Red Navbar Status & Student Chips */
 .rui-student-chip {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--rui-surface-subtle);
-  border: 1px solid var(--rui-border-light);
-  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 5px 12px;
   border-radius: var(--rui-radius-pill);
-  transition: var(--rui-transition-fast);
-}
-
-.rui-student-chip:hover {
-  background: #FFFFFF;
-  border-color: var(--rui-border-medium);
-  box-shadow: var(--rui-shadow-xs);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .rui-student-avatar {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--rui-maroon) 0%, #9F1239 100%);
-  color: #FFFFFF !important;
+  background: linear-gradient(135deg, #F3E5C8 0%, #D4AF37 100%);
+  color: #38050B !important;
   font-size: 0.72rem;
   font-weight: 800;
   display: flex;
@@ -258,135 +233,260 @@
 .rui-student-name {
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--rui-ink) !important;
+  color: #FFFFFF !important;
 }
 
 .rui-ai-badge {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--rui-emerald-subtle);
-  border: 1px solid rgba(5, 150, 105, 0.25);
-  color: var(--rui-emerald) !important;
+  background: rgba(5, 150, 105, 0.35);
+  border: 1px solid rgba(52, 211, 153, 0.6);
+  color: #D1FAE5 !important;
   font-size: 0.75rem;
   font-weight: 700;
   padding: 5px 12px;
   border-radius: var(--rui-radius-pill);
-  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .rui-ai-pulse {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: var(--rui-emerald);
-  box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7);
+  background-color: #34D399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
   animation: ruiPulse 2s infinite;
 }
 
 @keyframes ruiPulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 7px rgba(5, 150, 105, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
-  }
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
 }
 
 /* ==========================================================================
-   STREAMLIT PILLS (TOP HORIZONTAL NAVIGATION ENGINE)
+   MENU BAR / PILLS DOCK VISIBILITY FIX (CRITICAL: ZERO BLACK-ON-BLACK TEXT)
    ========================================================================== */
 div[data-testid="stPills"],
 div[data-testid="stSegmentedControl"] {
-  background: rgba(248, 250, 252, 0.85) !important;
-  border: 1px solid var(--rui-border-light) !important;
+  background: linear-gradient(135deg, #38050B 0%, #520D15 100%) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
   border-radius: var(--rui-radius-pill) !important;
-  padding: 5px 8px !important;
-  gap: 6px !important;
+  padding: 6px 10px !important;
+  gap: 8px !important;
   display: flex !important;
   flex-wrap: wrap !important;
   align-items: center !important;
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  box-shadow: 0 4px 14px rgba(56, 5, 11, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Individual Pill Buttons */
+/* All Pill Buttons Inside Menu Dock */
 div[data-testid="stPills"] button,
-div[data-testid="stSegmentedControl"] button {
-  background: transparent !important;
-  color: var(--rui-ink-secondary) !important;
-  border: none !important;
+div[data-testid="stSegmentedControl"] button,
+button[data-testid="stBaseButton-pills"],
+button[data-testid="stPill"] {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
   border-radius: var(--rui-radius-pill) !important;
   padding: 8px 16px !important;
-  font-size: 0.88rem !important;
-  font-weight: 600 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   cursor: pointer !important;
   transition: var(--rui-transition-smooth) !important;
   white-space: nowrap !important;
 }
 
-div[data-testid="stPills"] button p,
-div[data-testid="stSegmentedControl"] button p,
-div[data-testid="stPills"] button span,
-div[data-testid="stSegmentedControl"] button span {
-  color: var(--rui-ink-secondary) !important;
+/* CRITICAL: Force ALL children of pill buttons to be bright white */
+div[data-testid="stPills"] button *,
+div[data-testid="stSegmentedControl"] button *,
+button[data-testid="stBaseButton-pills"] *,
+button[data-testid="stPill"] * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 600 !important;
+  font-size: 0.9rem !important;
 }
 
-/* Hover Pill */
+/* Hover State on Pill */
 div[data-testid="stPills"] button:hover,
-div[data-testid="stSegmentedControl"] button:hover {
-  background: #FFFFFF !important;
-  color: var(--rui-ink-strong) !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
-  transform: translateY(-1px) !important;
+div[data-testid="stSegmentedControl"] button:hover,
+button[data-testid="stBaseButton-pills"]:hover,
+button[data-testid="stPill"]:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  border-color: #F3E5C8 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
-div[data-testid="stPills"] button:hover p,
-div[data-testid="stSegmentedControl"] button:hover p {
-  color: var(--rui-ink-strong) !important;
+div[data-testid="stPills"] button:hover *,
+div[data-testid="stSegmentedControl"] button:hover *,
+button[data-testid="stBaseButton-pills"]:hover *,
+button[data-testid="stPill"]:hover * {
+  color: #FFF2D6 !important;
+  -webkit-text-fill-color: #FFF2D6 !important;
 }
 
-/* Active Selected Pill: Rich Deep Charcoal or Maroon with crisp White Text */
+/* Active / Selected Pill: Vivid Imperial Red Pill with Crisp Pure White Text */
 div[data-testid="stPills"] button[aria-selected="true"],
 div[data-testid="stSegmentedControl"] button[aria-selected="true"],
 div[data-testid="stPills"] button[data-selected="true"],
-div[data-testid="stSegmentedControl"] button[data-selected="true"],
-div[data-testid="stPills"] button[kind="primary"] {
-  background: linear-gradient(135deg, var(--rui-maroon) 0%, #4A0E16 100%) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.3) !important;
-  transform: translateY(-1px) !important;
+div[data-testid="stSegmentedControl"] button[data-selected="true"] {
+  background: linear-gradient(135deg, #DC2626 0%, #991B1B 50%, #701A24 100%) !important;
+  border: 1.5px solid #F3E5C8 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 12px rgba(220, 38, 38, 0.5) !important;
+  transform: translateY(-2px) !important;
 }
 
-div[data-testid="stPills"] button[aria-selected="true"] p,
-div[data-testid="stSegmentedControl"] button[aria-selected="true"] p,
-div[data-testid="stPills"] button[aria-selected="true"] span,
-div[data-testid="stSegmentedControl"] button[aria-selected="true"] span,
-div[data-testid="stPills"] button[data-selected="true"] p,
-div[data-testid="stSegmentedControl"] button[data-selected="true"] p {
+div[data-testid="stPills"] button[aria-selected="true"] *,
+div[data-testid="stSegmentedControl"] button[aria-selected="true"] *,
+div[data-testid="stPills"] button[data-selected="true"] *,
+div[data-testid="stSegmentedControl"] button[data-selected="true"] * {
   color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+
+/* ==========================================================================
+   INPUT BOXES & TEXTAREAS VISIBILITY FIX (CRITICAL: WHITE BOX + BLACK TEXT)
+   ========================================================================== */
+/* Master Input Field Rule: Crisp White Box + Deep Solid Black Text */
+input, textarea, select,
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input,
+.stDateInput input,
+.stTimeInput input,
+div[data-testid="stTextInput"] input,
+div[data-testid="stTextArea"] textarea,
+div[data-testid="stNumberInput"] input,
+div[data-testid="stDateInput"] input,
+div[data-baseweb="input"] input,
+div[data-baseweb="textarea"] textarea,
+div[data-baseweb="base-input"] input,
+div[data-baseweb="base-input"] textarea {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  border: 1.5px solid #94A3B8 !important;
+  border-radius: 10px !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Target the outer BaseWeb input container that Streamlit colors dark */
+div[data-testid="stTextInput"] > div,
+div[data-testid="stTextInput"] > div > div,
+div[data-testid="stTextArea"] > div,
+div[data-testid="stTextArea"] > div > div,
+div[data-testid="stNumberInput"] > div,
+div[data-testid="stNumberInput"] > div > div,
+div[data-testid="stDateInput"] > div,
+div[data-testid="stDateInput"] > div > div,
+div[data-baseweb="input"],
+div[data-baseweb="textarea"],
+div[data-baseweb="base-input"] {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  border-color: #94A3B8 !important;
+  border-radius: 10px !important;
+}
+
+/* Focus state */
+input:focus, textarea:focus,
+div[data-baseweb="input"]:focus-within,
+div[data-baseweb="textarea"]:focus-within,
+div[data-baseweb="base-input"]:focus-within {
+  border-color: #701A24 !important;
+  box-shadow: 0 0 0 3px rgba(112, 26, 36, 0.18) !important;
+}
+
+/* Placeholder Text */
+input::placeholder, textarea::placeholder,
+.stTextInput input::placeholder,
+.stTextArea textarea::placeholder {
+  color: #64748B !important;
+  -webkit-text-fill-color: #64748B !important;
+  opacity: 1 !important;
+}
+
+/* BaseWeb Select Box */
+div[data-baseweb="select"] {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #94A3B8 !important;
+  border-radius: 10px !important;
+}
+
+div[data-baseweb="select"] * {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 500 !important;
+}
+
+/* BaseWeb Dropdown Popover */
+div[data-baseweb="popover"],
+div[data-baseweb="menu"] {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid var(--rui-gold) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18) !important;
+}
+
+li[role="option"],
+div[role="option"] {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-size: 0.92rem !important;
+  cursor: pointer !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+li[role="option"] *,
+div[role="option"] * {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+
+li[role="option"]:hover,
+div[role="option"]:hover,
+li[role="option"][aria-selected="true"],
+div[role="option"][aria-selected="true"] {
+  background: #FDF2F4 !important;
+  color: #701A24 !important;
+  -webkit-text-fill-color: #701A24 !important;
+  border-left: 4px solid #701A24 !important;
+}
+
+li[role="option"]:hover *,
+div[role="option"]:hover *,
+li[role="option"][aria-selected="true"] *,
+div[role="option"][aria-selected="true"] * {
+  color: #701A24 !important;
+  -webkit-text-fill-color: #701A24 !important;
   font-weight: 700 !important;
 }
 
 /* ==========================================================================
-   BUTTON DESIGN SYSTEM (PREMIUM HIGH-CONTRAST)
+   BUTTON DESIGN SYSTEM (HIGH-CONTRAST)
    ========================================================================== */
-/* All Streamlit Buttons */
 .stButton > button {
   background-color: #FFFFFF !important;
-  color: var(--rui-ink-strong) !important;
-  border: 1.5px solid var(--rui-border-medium) !important;
-  border-radius: var(--rui-radius-md) !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 10px !important;
   padding: 10px 20px !important;
   font-size: 0.92rem !important;
   font-weight: 600 !important;
-  letter-spacing: -0.01em !important;
   box-shadow: var(--rui-shadow-xs) !important;
   transition: var(--rui-transition-smooth) !important;
 }
@@ -394,109 +494,69 @@ div[data-testid="stSegmentedControl"] button[data-selected="true"] p {
 .stButton > button p,
 .stButton > button span,
 .stButton > button div {
-  color: var(--rui-ink-strong) !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
   font-weight: 600 !important;
 }
 
 .stButton > button:hover {
   background-color: #F8FAFC !important;
-  border-color: var(--rui-ink-muted) !important;
-  color: var(--rui-ink-strong) !important;
-  box-shadow: var(--rui-shadow-sm) !important;
+  border-color: #64748B !important;
   transform: translateY(-2px) !important;
+  box-shadow: var(--rui-shadow-sm) !important;
 }
 
-/* Primary Action Buttons (Prestige Maroon / Dark Charcoal) */
+/* Primary Action Buttons (Red / Maroon) */
 .stButton > button[kind="primary"],
-.stButton > button[data-testid="stBaseButton-primary"],
-button.st-emotion-cache-19rxjzo[kind="primary"] {
-  background: linear-gradient(135deg, var(--rui-maroon) 0%, #520D15 100%) !important;
+.stButton > button[data-testid="stBaseButton-primary"] {
+  background: linear-gradient(135deg, #701A24 0%, #4A0E17 100%) !important;
   color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.3) !important;
 }
 
-.stButton > button[kind="primary"] p,
-.stButton > button[kind="primary"] span,
-.stButton > button[kind="primary"] div,
-.stButton > button[data-testid="stBaseButton-primary"] p,
-.stButton > button[data-testid="stBaseButton-primary"] span {
+.stButton > button[kind="primary"] *,
+.stButton > button[data-testid="stBaseButton-primary"] * {
   color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 700 !important;
 }
 
 .stButton > button[kind="primary"]:hover,
 .stButton > button[data-testid="stBaseButton-primary"]:hover {
-  background: linear-gradient(135deg, var(--rui-maroon-light) 0%, var(--rui-maroon) 100%) !important;
-  box-shadow: 0 6px 20px rgba(112, 26, 36, 0.35) !important;
+  background: linear-gradient(135deg, #8E212E 0%, #701A24 100%) !important;
   transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(112, 26, 36, 0.4) !important;
 }
 
 /* Form Submit Buttons */
 div[data-testid="stFormSubmitButton"] > button {
-  background: linear-gradient(135deg, var(--rui-maroon) 0%, #4A0E16 100%) !important;
+  background: linear-gradient(135deg, #701A24 0%, #4A0E17 100%) !important;
   color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   border: none !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.3) !important;
 }
 
-div[data-testid="stFormSubmitButton"] > button p,
-div[data-testid="stFormSubmitButton"] > button span {
+div[data-testid="stFormSubmitButton"] > button * {
   color: #FFFFFF !important;
-}
-
-div[data-testid="stFormSubmitButton"] > button:hover {
-  box-shadow: 0 6px 20px rgba(112, 26, 36, 0.35) !important;
-  transform: translateY(-2px) !important;
+  -webkit-text-fill-color: #FFFFFF !important;
 }
 
 /* ==========================================================================
-   CARD SYSTEM & SECTIONS
+   CARDS, METRICS & HERO SECTION
    ========================================================================== */
-/* Master Card Container */
-.rui-card {
-  background: #FFFFFF;
-  border: 1px solid var(--rui-border-light);
-  border-radius: var(--rui-radius-lg);
-  padding: 24px;
-  box-shadow: var(--rui-shadow-sm);
-  transition: var(--rui-transition-smooth);
-  margin-bottom: 20px;
-}
-
-.rui-card:hover {
-  border-color: var(--rui-border-medium);
-  box-shadow: var(--rui-shadow-md);
-}
-
-/* Hero Section */
 .hero {
   background: linear-gradient(145deg, #FFFFFF 0%, #FAF8F5 50%, #F4EFEA 100%);
   border: 1px solid var(--rui-border-warm);
   border-radius: var(--rui-radius-xl);
-  padding: 40px 48px;
-  margin-bottom: 28px;
+  padding: 38px 44px;
+  margin-bottom: 24px;
   box-shadow: var(--rui-shadow-md);
   position: relative;
   overflow: hidden;
-  animation: ruiFadeIn 0.5s ease;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(197, 160, 89, 0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-@keyframes ruiFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-pill {
@@ -518,33 +578,32 @@ div[data-testid="stFormSubmitButton"] > button:hover {
 
 .hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.9rem !important;
+  font-size: 2.8rem !important;
   font-weight: 800;
-  color: var(--rui-ink-strong) !important;
+  color: #0F172A !important;
   letter-spacing: -0.03em;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   line-height: 1.15;
 }
 
 .hero h1 em {
   font-style: italic;
-  color: var(--rui-maroon);
+  color: #701A24;
 }
 
 .hero p.lead {
-  font-size: 1.1rem;
-  color: var(--rui-ink-secondary) !important;
+  font-size: 1.08rem;
+  color: #334155 !important;
   max-width: 680px;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
-/* Hero Badge Card (Right side) */
 .hero-emblem-card {
   background: #FFFFFF;
   border: 2px solid var(--rui-gold);
   border-radius: var(--rui-radius-lg);
-  padding: 24px 20px;
+  padding: 22px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -555,10 +614,9 @@ div[data-testid="stFormSubmitButton"] > button:hover {
 }
 
 .hero-emblem-card img {
-  max-width: 130px;
+  max-width: 120px;
   height: auto;
   border-radius: 8px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
 }
 
 /* Feature Horizon Cards */
@@ -572,8 +630,6 @@ div[data-testid="stFormSubmitButton"] > button:hover {
   flex-direction: column;
   box-shadow: var(--rui-shadow-xs);
   transition: var(--rui-transition-smooth);
-  position: relative;
-  overflow: hidden;
 }
 
 .feature-card:hover {
@@ -583,8 +639,8 @@ div[data-testid="stFormSubmitButton"] > button:hover {
 }
 
 .feature-icon-box {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   border-radius: 12px;
   background: var(--rui-surface-warm);
   border: 1px solid var(--rui-border-warm);
@@ -592,26 +648,19 @@ div[data-testid="stFormSubmitButton"] > button:hover {
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  margin-bottom: 14px;
-  transition: var(--rui-transition-fast);
-}
-
-.feature-card:hover .feature-icon-box {
-  background: var(--rui-gold-light);
-  border-color: var(--rui-gold);
-  transform: scale(1.08);
+  margin-bottom: 12px;
 }
 
 .feature-card h3 {
   font-size: 1.12rem;
   font-weight: 700;
-  color: var(--rui-ink-strong) !important;
+  color: #0F172A !important;
   margin: 0 0 8px 0;
 }
 
 .feature-card p {
   font-size: 0.88rem;
-  color: var(--rui-ink-secondary) !important;
+  color: #475569 !important;
   line-height: 1.5;
   margin: 0;
   flex-grow: 1;
@@ -622,7 +671,7 @@ div[data-testid="stFormSubmitButton"] > button:hover {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 .stat-pill {
@@ -643,23 +692,43 @@ div[data-testid="stFormSubmitButton"] > button:hover {
 .stat-pill-num {
   font-size: 1.35rem;
   font-weight: 800;
-  color: var(--rui-maroon) !important;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #701A24 !important;
   line-height: 1.2;
 }
 
 .stat-pill-label {
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--rui-ink-secondary) !important;
+  color: #475569 !important;
   margin-top: 4px;
+}
+
+/* Metric Cards */
+div[data-testid="stMetric"] {
+  background: #FFFFFF !important;
+  border: 1px solid var(--rui-border-light) !important;
+  border-radius: var(--rui-radius-md) !important;
+  padding: 16px 20px !important;
+  box-shadow: var(--rui-shadow-xs) !important;
+}
+
+div[data-testid="stMetric"] label {
+  color: #475569 !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+}
+
+div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
+  color: #0F172A !important;
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
 }
 
 /* Section Kickers */
 .section-kicker {
   font-size: 0.76rem;
   font-weight: 800;
-  color: var(--rui-maroon) !important;
+  color: #701A24 !important;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -676,249 +745,143 @@ div[data-testid="stFormSubmitButton"] > button:hover {
   background-color: var(--rui-gold);
 }
 
-/* Metric Cards in Streamlit */
-div[data-testid="stMetric"] {
-  background: #FFFFFF !important;
-  border: 1px solid var(--rui-border-light) !important;
-  border-radius: var(--rui-radius-md) !important;
-  padding: 16px 20px !important;
-  box-shadow: var(--rui-shadow-xs) !important;
-  transition: var(--rui-transition-smooth) !important;
-}
-
-div[data-testid="stMetric"]:hover {
-  border-color: var(--rui-border-medium) !important;
-  box-shadow: var(--rui-shadow-sm) !important;
-  transform: translateY(-2px) !important;
-}
-
-div[data-testid="stMetric"] label {
-  color: var(--rui-ink-secondary) !important;
-  font-size: 0.85rem !important;
-  font-weight: 600 !important;
-}
-
-div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
-  color: var(--rui-ink-strong) !important;
-  font-size: 1.8rem !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em !important;
-}
-
-/* ==========================================================================
-   DROPDOWN & BASEWEB POPOVER OVERRIDES (ULTRA VISIBILITY GUARANTEE)
-   ========================================================================== */
-div[data-baseweb="popover"],
-div[data-baseweb="menu"] {
-  background-color: #FFFFFF !important;
-  border: 1.5px solid var(--rui-gold) !important;
-  border-radius: var(--rui-radius-md) !important;
-  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16) !important;
-  z-index: 9999999 !important;
-  overflow: hidden !important;
-}
-
-ul[role="listbox"],
-div[role="listbox"] {
-  background-color: #FFFFFF !important;
-  padding: 6px !important;
-}
-
-li[role="option"],
-div[role="option"] {
-  background-color: #FFFFFF !important;
-  color: var(--rui-ink-strong) !important;
-  padding: 10px 14px !important;
-  border-radius: 8px !important;
-  font-size: 0.92rem !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  transition: var(--rui-transition-fast) !important;
-  margin-bottom: 2px !important;
-  border-bottom: 1px solid #F1F5F9 !important;
-}
-
-li[role="option"] *,
-div[role="option"] * {
-  color: var(--rui-ink-strong) !important;
-  font-weight: 500 !important;
-}
-
-li[role="option"]:hover,
-div[role="option"]:hover,
-li[role="option"][aria-selected="true"],
-div[role="option"][aria-selected="true"] {
-  background: var(--rui-maroon-subtle) !important;
-  color: var(--rui-maroon) !important;
-  border-left: 4px solid var(--rui-maroon) !important;
-}
-
-li[role="option"]:hover *,
-div[role="option"]:hover *,
-li[role="option"][aria-selected="true"] *,
-div[role="option"][aria-selected="true"] * {
-  color: var(--rui-maroon) !important;
-  font-weight: 700 !important;
-}
-
-/* Select input box */
-div[data-baseweb="select"] {
-  background-color: #FFFFFF !important;
-  border: 1.5px solid var(--rui-border-medium) !important;
-  border-radius: var(--rui-radius-md) !important;
-  color: var(--rui-ink-strong) !important;
-  box-shadow: var(--rui-shadow-xs) !important;
-  transition: var(--rui-transition-fast) !important;
-}
-
-div[data-baseweb="select"] * {
-  color: var(--rui-ink-strong) !important;
-  font-weight: 500 !important;
-}
-
-div[data-baseweb="select"]:hover,
-div[data-baseweb="select"]:focus-within {
-  border-color: var(--rui-maroon) !important;
-  box-shadow: 0 0 0 3px rgba(112, 26, 36, 0.12) !important;
-}
-
-/* Text Inputs, Textareas, Number Inputs */
-.stTextInput > div > div > input,
-.stTextArea > div > div > textarea,
-.stNumberInput > div > div > input {
-  background-color: #FFFFFF !important;
-  color: var(--rui-ink-strong) !important;
-  border: 1.5px solid var(--rui-border-medium) !important;
-  border-radius: var(--rui-radius-md) !important;
-  font-size: 0.95rem !important;
-  padding: 10px 14px !important;
-  box-shadow: var(--rui-shadow-xs) !important;
-  transition: var(--rui-transition-fast) !important;
-}
-
-.stTextInput > div > div > input:focus,
-.stTextArea > div > div > textarea:focus,
-.stNumberInput > div > div > input:focus {
-  border-color: var(--rui-maroon) !important;
-  box-shadow: 0 0 0 3px rgba(112, 26, 36, 0.12) !important;
-}
-
-/* ==========================================================================
-   STREAMLIT TABS (MODERN HIGH-CONTRAST UNDERLINE)
-   ========================================================================== */
-div[data-testid="stTabs"] {
-  margin-top: 12px;
-}
-
+/* Streamlit Tabs */
 div[data-testid="stTabs"] button[role="tab"] {
-  background-color: transparent !important;
-  color: var(--rui-ink-secondary) !important;
+  color: #475569 !important;
   font-size: 0.95rem !important;
   font-weight: 600 !important;
   padding: 12px 18px !important;
-  border: none !important;
   border-bottom: 2px solid transparent !important;
-  transition: var(--rui-transition-fast) !important;
 }
 
-div[data-testid="stTabs"] button[role="tab"] p,
-div[data-testid="stTabs"] button[role="tab"] span {
-  color: var(--rui-ink-secondary) !important;
+div[data-testid="stTabs"] button[role="tab"] * {
+  color: #475569 !important;
   font-weight: 600 !important;
 }
 
-div[data-testid="stTabs"] button[role="tab"]:hover {
-  color: var(--rui-maroon) !important;
-}
-
-div[data-testid="stTabs"] button[role="tab"]:hover p,
-div[data-testid="stTabs"] button[role="tab"]:hover span {
-  color: var(--rui-maroon) !important;
+div[data-testid="stTabs"] button[role="tab"]:hover * {
+  color: #701A24 !important;
 }
 
 div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
-  color: var(--rui-maroon) !important;
-  border-bottom: 3px solid var(--rui-maroon) !important;
+  border-bottom: 3px solid #701A24 !important;
 }
 
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] p,
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] span {
-  color: var(--rui-maroon) !important;
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] * {
+  color: #701A24 !important;
   font-weight: 800 !important;
 }
 
 /* ==========================================================================
-   STUDENT ONBOARDING & SIGN-IN CARD
+   DEDICATED RUI MASTER FOOTER
    ========================================================================== */
-.admission-card {
-  background: #FFFFFF;
-  border: 1px solid var(--rui-border-light);
+.rui-master-footer {
+  margin-top: 54px;
+  background: linear-gradient(135deg, #2B050B 0%, #3D0810 50%, #4A0E17 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
   border-radius: var(--rui-radius-xl);
-  padding: 32px 36px;
-  box-shadow: var(--rui-shadow-md);
-  margin-bottom: 28px;
-  text-align: center;
+  padding: 40px 44px 28px 44px;
+  color: #FFFFFF !important;
+  box-shadow: 0 16px 40px rgba(43, 5, 11, 0.35);
 }
 
-.admission-card-header h2 {
-  font-size: 1.8rem;
-  color: var(--rui-maroon) !important;
-  font-family: 'Playfair Display', Georgia, serif;
+.rui-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.1fr 1.2fr;
+  gap: 36px;
+  margin-bottom: 32px;
 }
 
-/* ==========================================================================
-   QUOTE BOX & FOOTER
-   ========================================================================== */
-.ruia-quote-box {
-  background: var(--rui-surface-warm);
-  border-left: 4px solid var(--rui-gold);
-  border-radius: 0 var(--rui-radius-md) var(--rui-radius-md) 0;
-  padding: 20px 24px;
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--rui-ink) !important;
-  margin: 32px 0 24px 0;
-}
-
-.ruia-quote-author {
-  font-style: normal;
-  font-size: 0.85rem;
+.rui-footer-col h4 {
+  font-size: 1.02rem;
   font-weight: 700;
-  color: var(--rui-maroon) !important;
-  margin-top: 8px;
+  color: #F3E5C8 !important;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
 }
 
-.ruia-footer {
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--rui-border-light);
+.rui-footer-brand {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  color: var(--rui-ink-muted) !important;
-  font-size: 0.82rem;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.ruia-footer-creds {
+.rui-footer-badge {
+  background: #F3E5C8;
+  color: #3D0810 !important;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.rui-footer-desc {
+  font-size: 0.85rem;
+  color: #E2E8F0 !important;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.rui-footer-accreditation {
   display: flex;
-  align-items: center;
   gap: 8px;
+  font-size: 0.76rem;
+  color: #CBD5E1 !important;
   font-weight: 600;
 }
 
-/* Expanders */
-div[data-testid="stExpander"] {
-  background: #FFFFFF !important;
-  border: 1px solid var(--rui-border-light) !important;
-  border-radius: var(--rui-radius-md) !important;
-  box-shadow: var(--rui-shadow-xs) !important;
+.rui-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-div[data-testid="stExpander"] summary {
-  color: var(--rui-ink-strong) !important;
-  font-weight: 700 !important;
+.rui-footer-links li {
+  margin-bottom: 10px;
+}
+
+.rui-footer-links a {
+  color: #E2E8F0 !important;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--rui-transition-fast);
+}
+
+.rui-footer-links a:hover {
+  color: #F3E5C8 !important;
+  padding-left: 4px;
+}
+
+.rui-footer-campus {
+  font-size: 0.85rem;
+  color: #E2E8F0 !important;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.rui-footer-status {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #E2E8F0 !important;
+}
+
+.rui-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #CBD5E1 !important;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* Responsive adjustments */
@@ -931,10 +894,359 @@ div[data-testid="stExpander"] summary {
   .ruia-stats-strip {
     grid-template-columns: repeat(2, 1fr);
   }
+  .rui-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
   .hero {
-    padding: 28px 24px;
+    padding: 26px 20px;
   }
   .hero h1 {
     font-size: 2.1rem !important;
   }
 }
+
+/* ==========================================================================
+   LIST ITEMS, COUNTDOWN CARDS & STATUS PILLS
+   ========================================================================== */
+.list-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+  transition: all 0.2s ease !important;
+}
+
+.list-item:hover {
+  border-color: #CBD5E1 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08) !important;
+}
+
+.list-item-content {
+  flex-grow: 1 !important;
+}
+
+.list-item-title {
+  font-size: 0.98rem !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  margin-bottom: 4px !important;
+}
+
+.list-item-meta {
+  font-size: 0.82rem !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.list-item-meta span {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+/* Status Pills */
+.status-pill {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  padding: 3px 10px !important;
+  border-radius: 9999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Status Urgent: Red box -> White text */
+.status-pill.status-urgent,
+.status-urgent {
+  background: #B91C1C !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 1px solid #7F1D1D !important;
+}
+.status-pill.status-urgent *,
+.status-urgent * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Status Pending: Light amber/blue box -> Dark text */
+.status-pill.status-pending,
+.status-pending {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  -webkit-text-fill-color: #92400E !important;
+  border: 1px solid #FCD34D !important;
+}
+.status-pill.status-pending *,
+.status-pending * {
+  color: #92400E !important;
+  -webkit-text-fill-color: #92400E !important;
+}
+
+/* Status Completed: Light green box -> Dark text */
+.status-pill.status-completed,
+.status-completed {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  -webkit-text-fill-color: #065F46 !important;
+  border: 1px solid #A7F3D0 !important;
+}
+.status-pill.status-completed *,
+.status-completed * {
+  color: #065F46 !important;
+  -webkit-text-fill-color: #065F46 !important;
+}
+
+/* Countdown Card */
+.countdown-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  margin-bottom: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* Countdown Badge: Black/Dark box -> White text */
+.countdown-badge {
+  background: #18181B !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-radius: 12px !important;
+  padding: 10px 16px !important;
+  text-align: center !important;
+  min-width: 76px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+.countdown-badge * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+.countdown-days {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+.countdown-sub {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  margin-top: 3px !important;
+  color: #E2E8F0 !important;
+  -webkit-text-fill-color: #E2E8F0 !important;
+}
+
+/* Countdown Badge Urgent: Red box -> White text */
+.countdown-badge.urgent {
+  background: #B91C1C !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(185, 28, 28, 0.4) !important;
+}
+.countdown-badge.urgent * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Countdown Badge Warning: Amber/Gold box -> Dark text */
+.countdown-badge.warning {
+  background: #F59E0B !important;
+  color: #78350F !important;
+  -webkit-text-fill-color: #78350F !important;
+}
+.countdown-badge.warning * {
+  color: #78350F !important;
+  -webkit-text-fill-color: #78350F !important;
+}
+
+/* Ruia Quote Box: Warm white box -> Black text */
+.ruia-quote-box {
+  background: #FAF8F5 !important;
+  border-left: 4px solid #701A24 !important;
+  border-top: 1px solid #E6DFD5 !important;
+  border-right: 1px solid #E6DFD5 !important;
+  border-bottom: 1px solid #E6DFD5 !important;
+  border-radius: 0 12px 12px 0 !important;
+  padding: 16px 20px !important;
+  font-size: 0.95rem !important;
+  font-style: italic !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important;
+}
+.ruia-quote-box * {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+.ruia-quote-author {
+  font-size: 0.8rem !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  color: #701A24 !important;
+  -webkit-text-fill-color: #701A24 !important;
+  margin-top: 6px !important;
+}
+
+/* ==========================================================================
+   STRICT GLOBAL CONTRAST ENFORCEMENT RULES
+   1. Red background or box   ==> Text is WHITE (#FFFFFF !important)
+   2. Black background or box ==> Text is WHITE (#FFFFFF !important)
+   3. White background or box ==> Text is BLACK (#0F172A !important)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   RULE 1: RED BACKGROUND OR BOX ==> WHITE TEXT
+   -------------------------------------------------------------------------- */
+.rui-top-navbar,
+.rui-master-footer,
+.status-pill.status-urgent,
+.countdown-badge.urgent,
+.box-red,
+.bg-red,
+.ruia-box-red,
+button[kind="primary"],
+button[data-testid="stBaseButton-primary"],
+div[data-testid="stFormSubmitButton"] > button {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.rui-top-navbar *,
+.rui-master-footer *,
+.status-pill.status-urgent *,
+.countdown-badge.urgent *,
+.box-red *,
+.bg-red *,
+.ruia-box-red *,
+button[kind="primary"] *,
+button[data-testid="stBaseButton-primary"] *,
+div[data-testid="stFormSubmitButton"] > button * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+button[kind="primary"]:hover *,
+button[data-testid="stBaseButton-primary"]:hover *,
+div[data-testid="stFormSubmitButton"] > button:hover * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* --------------------------------------------------------------------------
+   RULE 2: BLACK / DARK BACKGROUND OR BOX ==> WHITE TEXT
+   -------------------------------------------------------------------------- */
+div[data-testid="stPills"],
+div[data-testid="stSegmentedControl"],
+.countdown-badge:not(.warning),
+.rui-footer-status,
+.box-black,
+.bg-black,
+.ruia-box-black,
+div[data-testid="stToast"] {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+div[data-testid="stPills"] button *,
+div[data-testid="stSegmentedControl"] button *,
+button[data-testid="stBaseButton-pills"] *,
+button[data-testid="stPill"] *,
+.countdown-badge:not(.warning) *,
+.rui-footer-status *,
+.box-black *,
+.bg-black *,
+.ruia-box-black *,
+div[data-testid="stToast"] * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* --------------------------------------------------------------------------
+   RULE 3: WHITE / LIGHT BACKGROUND OR BOX ==> BLACK TEXT
+   -------------------------------------------------------------------------- */
+input,
+textarea,
+select,
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input,
+.stDateInput input,
+.stTimeInput input,
+div[data-testid="stTextInput"] input,
+div[data-testid="stTextArea"] textarea,
+div[data-testid="stNumberInput"] input,
+div[data-testid="stDateInput"] input,
+div[data-baseweb="input"] input,
+div[data-baseweb="textarea"] textarea,
+div[data-baseweb="base-input"] input,
+div[data-baseweb="base-input"] textarea,
+div[data-baseweb="select"] *,
+div[data-baseweb="popover"] *,
+div[data-baseweb="menu"] *,
+li[role="option"] *,
+div[role="option"] *,
+.hero,
+.hero-emblem-card,
+.feature-card,
+.stat-pill,
+.list-item,
+.countdown-card,
+div[data-testid="stMetric"],
+div[data-testid="stExpander"],
+.box-white,
+.bg-white,
+.ruia-box-white,
+.ruia-quote-box,
+.admission-card {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+
+.hero h1, .hero p, .hero span,
+.feature-card h3, .feature-card p,
+.stat-pill-num, .stat-pill-label,
+.list-item-title, .list-item-meta,
+.list-item-meta span,
+.countdown-card div,
+div[data-testid="stMetric"] div,
+div[data-testid="stMetric"] label,
+div[data-testid="stExpander"] p,
+div[data-testid="stExpander"] div,
+div[data-testid="stExpander"] span,
+.admission-card p,
+.admission-card div {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+}
+
+/* Secondary normal buttons: White button ==> Black text */
+.stButton > button:not([kind="primary"]):not([data-testid="stBaseButton-primary"]) {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+}
+
+.stButton > button:not([kind="primary"]):not([data-testid="stBaseButton-primary"]) * {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 600 !important;
+}
+

@@ -6,15 +6,13 @@ def render(student):
         st.info("Please set up or select your student profile.")
         return
 
-    st.markdown("""
-    <div style="margin-bottom: 20px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI SYLLABUS PLANNER</div>
-        <h1 style="margin: 0 0 6px 0;">Official Syllabus Study Planner</h1>
-        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
-            Reverse-engineered 7-day study timetables tailored by <b>RUI</b> to official Ruia College autonomous departments, NEP 2020 course units (DSC/DSE/SEC), and Continuous Internal Assessments (CIA).
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div style="margin-bottom: 20px;">
+<div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI SYLLABUS PLANNER</div>
+<h1 style="margin: 0 0 6px 0;">Official Syllabus Study Planner</h1>
+<p style="color: #475569; font-size: 1.05rem; margin: 0;">
+Reverse-engineered 7-day study timetables tailored by <b>RUI</b> to official Ruia College autonomous departments, NEP 2020 course units (DSC/DSE/SEC), and Continuous Internal Assessments (CIA).
+</p>
+</div>""")
 
     col_form, col_output = st.columns([1, 1.25], gap="large")
 
@@ -137,7 +135,7 @@ def render(student):
 
         if current_plan:
             st.markdown(current_plan, unsafe_allow_html=True)
-            st.markdown("<div style='margin-top:16px;'></div>", unsafe_allow_html=True)
+            st.html("<div style='margin-top:16px;'></div>")
             st.download_button(
                 "📥 Download Official Study Timetable (.md)",
                 data=current_plan,
@@ -146,12 +144,11 @@ def render(student):
                 use_container_width=True
             )
         else:
-            st.markdown("""
-            <div style="background:#FFF; border:1px dashed #DACDBB; border-radius:14px; padding:48px 24px; text-align:center; color:#71717A;">
-                <div style="font-size:2.4rem; margin-bottom:12px;">🏛️</div>
-                <h4 style="margin:0 0 6px 0; color:#6B0F1A !important;">Awaiting Timetable Synthesis</h4>
-                <p style="font-size:0.92rem; max-width:380px; margin:0 auto;">
-                    Select your official Ruia College department on the left and click <b>Synthesize Ruia 7-Day Timetable</b>.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.html("""<div style="background:#FFF; border:1px dashed #DACDBB; border-radius:14px; padding:48px 24px; text-align:center; color:#0F172A;">
+<div style="font-size:2.4rem; margin-bottom:12px;">🏛️</div>
+<h4 style="margin:0 0 6px 0; color:#701A24 !important;">Awaiting Timetable Synthesis</h4>
+<p style="font-size:0.92rem; max-width:380px; margin:0 auto; color:#1E293B;">
+Select your official Ruia College department on the left and click <b>Synthesize Ruia 7-Day Timetable</b>.
+</p>
+</div>""")
+

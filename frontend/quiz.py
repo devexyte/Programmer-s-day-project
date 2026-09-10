@@ -6,20 +6,19 @@ def render(student):
         st.info("Please set up or select your student profile.")
         return
 
-    st.markdown("""
-    <div style="margin-bottom: 20px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI QUIZ STUDIO</div>
-        <h1 style="margin: 0 0 6px 0;">Quiz Studio & Practice Question Generator</h1>
-        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
-            Let <b>RUI</b> transform syllabus lecture topics into rigorous practice problems, multiple-choice questions, and mastery flashcards.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div style="margin-bottom: 20px;">
+<div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI QUIZ STUDIO</div>
+<h1 style="margin: 0 0 6px 0;">Quiz Studio & Practice Question Generator</h1>
+<p style="color: #475569; font-size: 1.05rem; margin: 0;">
+Let <b>RUI</b> transform syllabus lecture topics into rigorous practice problems, multiple-choice questions, and mastery flashcards.
+</p>
+</div>""")
+
 
     tab_create, tab_history = st.tabs(["🎯 Practice Studio", "📚 My Practice Vault"])
 
     with tab_create:
-        st.markdown("<small style='color:#71717A; font-weight:600;'>POPULAR RUIA SYLLABUS TOPICS:</small>", unsafe_allow_html=True)
+        st.html("<small style='color:#71717A; font-weight:600;'>POPULAR RUIA SYLLABUS TOPICS:</small>")
         q1, q2, q3, q4 = st.columns(4)
         if q1.button("💻 Binary Trees & Graphs", use_container_width=True):
             st.session_state["quiz_subj"] = "Data Structures & Algorithms"
@@ -62,13 +61,13 @@ def render(student):
             with c_cnt:
                 count = st.slider("Number of Questions", min_value=3, max_value=20, value=5, step=1)
 
-            generate_btn = st.form_submit_button("✦ Build Practice Set with Ruia AI", use_container_width=True)
+            generate_btn = st.form_submit_button("✦ Build Practice Set with RUI", use_container_width=True)
 
         if generate_btn:
             if not subject.strip() or not topic.strip():
                 st.warning("Please specify both subject and topic.")
             else:
-                with st.spinner("Ruia AI professor is curating rigorous examination questions..."):
+                with st.spinner("RUI is curating rigorous examination questions from your syllabus..."):
                     try:
                         quiz_content = create_quiz(student['student_id'], subject.strip(), topic.strip(), kind, count)
                         st.session_state["active_quiz"] = quiz_content
@@ -80,7 +79,7 @@ def render(student):
         if active_quiz:
             st.markdown("---")
             st.markdown(active_quiz, unsafe_allow_html=True)
-            st.markdown("<div style='margin-top:16px;'></div>", unsafe_allow_html=True)
+            st.html("<div style='margin-top:16px;'></div>")
             st.download_button(
                 "📥 Download Practice Paper (.md)",
                 data=active_quiz,

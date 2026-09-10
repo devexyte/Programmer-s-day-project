@@ -9,15 +9,13 @@ def render(student):
         st.info("Please set up or select your student profile.")
         return
 
-    st.markdown("""
-    <div style="margin-bottom: 20px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI EXAM MAP</div>
-        <h1 style="margin: 0 0 6px 0;">Exam Map & Revision Architect</h1>
-        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
-            Keep track of Mumbai University / Autonomous exam venues, countdown clocks, and let <b>RUI</b> architect your spaced repetition revision master schedules.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div style="margin-bottom: 20px;">
+<div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI EXAM MAP</div>
+<h1 style="margin: 0 0 6px 0;">Exam Map & Revision Architect</h1>
+<p style="color: #475569; font-size: 1.05rem; margin: 0;">
+Keep track of Mumbai University / Autonomous exam venues, countdown clocks, and let <b>RUI</b> architect your spaced repetition revision master schedules.
+</p>
+</div>""")
 
     tab_calendar, tab_schedule = st.tabs(["📅 Exam Calendar & Registration", "📖 AI Revision Master Schedule"])
 
@@ -79,25 +77,24 @@ def render(student):
                     c_card, c_del = st.columns([5, 1])
                     
                     with c_card:
-                        st.markdown(f"""
-                        <div class="countdown-card">
-                            <div>
-                                <div style="font-weight:700; color:#6B0F1A; font-size:1.1rem;">
-                                    {item.get('course_name') or 'Autonomous Paper'}
-                                </div>
-                                <div style="font-size:0.85rem; color:#64748B; margin-top:4px;">
-                                    📍 {item.get('venue') or 'Main Academic Block'} · 🕒 {item.get('exam_time') or '10:00 AM'}
-                                </div>
-                                <div style="font-size:0.8rem; color:#A1A1AA; margin-top:2px;">
-                                    Scheduled on: <b>{item['exam_date']}</b>
-                                </div>
-                            </div>
-                            <div class="countdown-badge {badge_class}">
-                                <div class="countdown-days">{days}</div>
-                                <div class="countdown-sub">Days Left</div>
-                            </div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        st.html(f"""<div class="countdown-card">
+<div>
+<div style="font-weight:700; color:#701A24; font-size:1.1rem;">
+{item.get('course_name') or 'Autonomous Paper'}
+</div>
+<div style="font-size:0.85rem; color:#64748B; margin-top:4px;">
+📍 {item.get('venue') or 'Main Academic Block'} · 🕒 {item.get('exam_time') or '10:00 AM'}
+</div>
+<div style="font-size:0.8rem; color:#64748B; margin-top:2px;">
+Scheduled on: <b>{item['exam_date']}</b>
+</div>
+</div>
+<div class="countdown-badge {badge_class}">
+<div class="countdown-days">{days}</div>
+<div class="countdown-sub">Days Left</div>
+</div>
+</div>""")
+
                     
                     with c_del:
                         if st.button("Delete", key=f"del_exam_{item['exam_id']}", use_container_width=True):
@@ -135,7 +132,7 @@ def render(student):
                 if active_plan:
                     st.markdown("---")
                     st.markdown(active_plan, unsafe_allow_html=True)
-                    st.markdown("<div style='margin-top:16px;'></div>", unsafe_allow_html=True)
+                    st.html("<div style='margin-top:16px;'></div>")
                     st.download_button(
                         "📥 Download Revision Timetable (.md)",
                         data=active_plan,

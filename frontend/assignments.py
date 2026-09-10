@@ -10,15 +10,13 @@ def render(student):
         st.info("Please set up or select your student profile.")
         return
 
-    st.markdown("""
-    <div style="margin-bottom: 20px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI ASSIGNMENT DESK</div>
-        <h1 style="margin: 0 0 6px 0;">Assignment Desk & Milestone Reminders</h1>
-        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
-            Track collegiate coursework, submissions, and let <b>RUI</b> automatically synthesize multi-stage preparation checkpoints.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div style="margin-bottom: 20px;">
+<div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI ASSIGNMENT DESK</div>
+<h1 style="margin: 0 0 6px 0;">Assignment Desk & Milestone Reminders</h1>
+<p style="color: #475569; font-size: 1.05rem; margin: 0;">
+Track collegiate coursework, submissions, and let <b>RUI</b> automatically synthesize multi-stage preparation checkpoints.
+</p>
+</div>""")
 
     tab_create, tab_active, tab_completed, tab_reminders = st.tabs([
         "➕ Register New Assignment",
@@ -90,19 +88,18 @@ def render(student):
 
                     col_main, col_btn1, col_btn2 = st.columns([5, 1.2, 1])
                     with col_main:
-                        st.markdown(f"""
-                        <div class="list-item" style="margin-bottom:6px;">
-                            <div class="list-item-content">
-                                <div class="list-item-title">{item['title']}</div>
-                                <div class="list-item-meta">
-                                    <span>📚 {item.get('course_name') or 'Autonomous Paper'}</span>
-                                    <span>·</span>
-                                    <span>📅 Due {item['due_date']}</span>
-                                    <span class="status-pill {status_class}">{due_badge}</span>
-                                </div>
-                            </div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        st.html(f"""<div class="list-item" style="margin-bottom:6px;">
+<div class="list-item-content">
+<div class="list-item-title">{item['title']}</div>
+<div class="list-item-meta">
+<span>📚 {item.get('course_name') or 'Autonomous Paper'}</span>
+<span>·</span>
+<span>📅 Due {item['due_date']}</span>
+<span class="status-pill {status_class}">{due_badge}</span>
+</div>
+</div>
+</div>""")
+
                     with col_btn1:
                         if st.button("Mark Done", key=f"mark_active_{item['assignment_id']}", use_container_width=True):
                             update_assignment_status(item['assignment_id'], "Completed")
@@ -131,21 +128,20 @@ def render(student):
             )
             if completed_items:
                 for item in completed_items:
-                    st.markdown(f"""
-                    <div class="list-item">
-                        <div class="list-item-content">
-                            <div class="list-item-title" style="text-decoration: line-through; color:#71717A;">{item['title']}</div>
-                            <div class="list-item-meta">
-                                <span>📚 {item.get('course_name') or 'Autonomous Paper'}</span>
-                                <span>·</span>
-                                <span>Completed on schedule</span>
-                                <span class="status-pill status-completed">Completed</span>
-                            </div>
-                        </div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.html(f"""<div class="list-item">
+<div class="list-item-content">
+<div class="list-item-title" style="text-decoration: line-through; color:#64748B;">{item['title']}</div>
+<div class="list-item-meta">
+<span>📚 {item.get('course_name') or 'Autonomous Paper'}</span>
+<span>·</span>
+<span>Completed on schedule</span>
+<span class="status-pill status-completed">Completed</span>
+</div>
+</div>
+</div>""")
+
             else:
-                st.markdown("<p style='color:#71717A;'>Completed assignments will be archived here.</p>", unsafe_allow_html=True)
+                st.html("<p style='color:#64748B;'>Completed assignments will be archived here.</p>")
         except Exception as exc:
             st.error(str(exc))
 

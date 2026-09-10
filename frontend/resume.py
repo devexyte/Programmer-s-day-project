@@ -6,15 +6,14 @@ def render(student):
         st.info("Please set up or select your student profile.")
         return
 
-    st.markdown("""
-    <div style="margin-bottom: 20px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI RESUME LAB</div>
-        <h1 style="margin: 0 0 6px 0;">Resume Lab & Placement Diagnostics</h1>
-        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
-            Elevate your academic credentials, technical projects, and leadership roles with <b>RUI</b>'s ATS-optimized placement diagnostics.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div style="margin-bottom: 20px;">
+<div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI RESUME LAB</div>
+<h1 style="margin: 0 0 6px 0;">Resume Lab & Placement Diagnostics</h1>
+<p style="color: #475569; font-size: 1.05rem; margin: 0;">
+Elevate your academic credentials, technical projects, and leadership roles with <b>RUI</b>'s ATS-optimized placement diagnostics.
+</p>
+</div>""")
+
 
     col_left, col_right = st.columns([1, 1.25], gap="large")
 
@@ -73,16 +72,16 @@ LEADERSHIP & ACTIVITIES
             placeholder="Paste your education, skills, projects, and work experience here..."
         )
 
-        analyze_btn = st.button("✦ Analyze & Polish with Ruia AI", type="primary", use_container_width=True)
+        analyze_btn = st.button("✦ Analyze & Polish with RUI", type="primary", use_container_width=True)
 
     with col_right:
         st.markdown("### 📑 Diagnostic Report & Polished Resume")
 
         if analyze_btn:
             if not resume_text.strip():
-                st.warning("Please paste or load a resume to begin analysis.")
+                st.warning("Please paste your resume text on the left.")
             else:
-                with st.spinner("Placement cell AI is auditing impact, metrics, and ATS compatibility..."):
+                with st.spinner("RUI is evaluating your resume against placement cell criteria..."):
                     try:
                         review_result = review_resume(resume_text.strip(), target_role)
                         st.session_state["current_resume_review"] = review_result
@@ -92,7 +91,7 @@ LEADERSHIP & ACTIVITIES
         current_review = st.session_state.get("current_resume_review")
         if current_review:
             st.markdown(current_review, unsafe_allow_html=True)
-            st.markdown("<div style='margin-top:16px;'></div>", unsafe_allow_html=True)
+            st.html("<div style='margin-top:16px;'></div>")
             st.download_button(
                 "📥 Download Polished Resume (.md)",
                 data=current_review,
@@ -101,12 +100,11 @@ LEADERSHIP & ACTIVITIES
                 use_container_width=True
             )
         else:
-            st.markdown("""
-            <div style="background:#FFF; border:1px dashed #DACDBB; border-radius:14px; padding:48px 24px; text-align:center; color:#71717A;">
-                <div style="font-size:2.4rem; margin-bottom:12px;">📑</div>
-                <h4 style="margin:0 0 6px 0; color:#6B0F1A !important;">Awaiting Resume Submission</h4>
-                <p style="font-size:0.92rem; max-width:380px; margin:0 auto;">
-                    Paste your resume on the left or click <b>Load Ruia Student Sample Resume</b> to generate your placement diagnostic and polished revision.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.html("""<div style="background:#FFF; border:1px dashed #DACDBB; border-radius:14px; padding:48px 24px; text-align:center; color:#0F172A;">
+<div style="font-size:2.4rem; margin-bottom:12px;">📑</div>
+<h4 style="margin:0 0 6px 0; color:#701A24 !important;">Awaiting Resume Submission</h4>
+<p style="font-size:0.92rem; max-width:380px; margin:0 auto; color:#1E293B;">
+Paste your resume on the left or click <b>Load Ruia Student Sample Resume</b> to generate your placement diagnostic and polished revision.
+</p>
+</div>""")
+

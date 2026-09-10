@@ -4,6 +4,7 @@ from pathlib import Path
 import streamlit as st
 from dotenv import load_dotenv
 from frontend import home, dashboard, planner, assignments, resume, quiz, exams
+from frontend.footer import render_footer
 from backend.db import get_or_create_student, get_all_students, seed_default_data
 from backend.ai import is_gemini_configured, get_active_api_key, save_api_key_to_env, test_gemini_connection
 
@@ -58,73 +59,42 @@ active_key = get_active_api_key()
 active_model = st.session_state.get("active_gemini_model") or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 # ==============================================================================
-# TOP HORIZONTAL BRAND & NAVIGATION HEADER
+# STYLISH RED TOP BRAND NAVBAR
 # ==============================================================================
-st.markdown('<div class="rui-top-navbar">', unsafe_allow_html=True)
-col_brand, col_status = st.columns([1.9, 1.1], vertical_alignment="center")
+logo_tag = f'<img src="{logo_b64}" class="rui-brand-logo" alt="Ruia Emblem">' if logo_b64 else '<span style="font-size:1.8rem;">🏛️</span>'
 
-with col_brand:
-    logo_tag = f'<img src="{logo_b64}" class="rui-brand-logo" alt="Ruia Emblem">' if logo_b64 else '<span style="font-size:1.8rem;">🏛️</span>'
-    st.markdown(f"""
-    <div class="rui-brand-box">
-        {logo_tag}
-        <div class="rui-brand-text">
-            <div class="rui-brand-title">
-                RUI <span class="rui-brand-tag">Student Buddy</span>
-            </div>
-            <div class="rui-brand-subtitle">Ramnarain Ruia Autonomous College · Matunga, Mumbai (Estd. 1937)</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+if st.session_state.student:
+    student = st.session_state.student
+    initials = "".join([p[0] for p in student['name'].split()][:2]).upper() or "RC"
+    short_name = student['name'].split()[0]
+    student_chip_html = f'<div class="rui-student-chip" title="{student["name"]} ({student["program"]})"><div class="rui-student-avatar">{initials}</div><div class="rui-student-name">{short_name} · Yr {student["year"]}</div></div>'
+else:
+    student_chip_html = '<div class="rui-student-chip" style="background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35);"><span style="font-size:0.8rem; font-weight:700; color:#FFFFFF;">Scholars Portal</span></div>'
 
-with col_status:
-    c_stu, c_ai = st.columns([1.2, 1], vertical_alignment="center")
-    with c_stu:
-        if st.session_state.student:
-            student = st.session_state.student
-            initials = "".join([p[0] for p in student['name'].split()][:2]).upper() or "RC"
-            short_name = student['name'].split()[0]
-            st.markdown(f"""
-            <div class="rui-student-chip" title="{student['name']} ({student['program']})">
-                <div class="rui-student-avatar">{initials}</div>
-                <div class="rui-student-name">{short_name} · Yr {student['year']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            if st.button("↻ Switch Student", key="top_switch_student", use_container_width=True):
-                st.session_state.student = None
-                st.session_state["nav_selection"] = "🏛️ Welcome"
-                if "top_nav_pills" in st.session_state:
-                    st.session_state["top_nav_pills"] = "🏛️ Welcome"
-                st.rerun()
-        else:
-            if st.button("🔑 Student Sign-In", key="top_btn_signin", use_container_width=True):
-                st.session_state["nav_selection"] = "📊 Academic Dashboard"
-                if "top_nav_pills" in st.session_state:
-                    st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
-                st.rerun()
+if active_key:
+    ai_badge_html = f'<div class="rui-ai-badge" title="RUI Generative AI active ({active_model})"><span class="rui-ai-pulse"></span><span>RUI AI Active</span></div>'
+else:
+    ai_badge_html = '<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(245,158,11,0.28); border:1px solid rgba(251,191,36,0.6); color:#FDE68A; font-size:0.75rem; font-weight:700; padding:5px 12px; border-radius:9999px;"><span>●</span><span>Curriculum Mode</span></div>'
 
-    with c_ai:
-        if active_key:
-            st.markdown(f"""
-            <div class="rui-ai-badge" title="RUI Generative AI active ({active_model})">
-                <span class="rui-ai-pulse"></span>
-                <span>RUI AI Active</span>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div style="display:inline-flex; align-items:center; gap:6px; background:#FEF3C7; border:1px solid #FDE68A; color:#92400E; font-size:0.75rem; font-weight:700; padding:5px 12px; border-radius:999px;">
-                <span>●</span>
-                <span>Curriculum Mode</span>
-            </div>
-            """, unsafe_allow_html=True)
+navbar_html = f"""<div class="rui-top-navbar">
+<div class="rui-brand-box">
+{logo_tag}
+<div class="rui-brand-text">
+<div class="rui-brand-title">RUI <span class="rui-brand-tag">Student Buddy</span></div>
+<div class="rui-brand-subtitle">Ramnarain Ruia Autonomous College · Matunga East, Mumbai (Estd. 1937)</div>
+</div>
+</div>
+<div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+{student_chip_html}
+{ai_badge_html}
+</div>
+</div>"""
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.html(navbar_html)
 
 # ==============================================================================
-# TOP HORIZONTAL NAVIGATION PILLS DOCK
+# TOP HORIZONTAL MENU BAR / PILLS DOCK (HIGH-CONTRAST GOLD & WHITE)
 # ==============================================================================
-# Synchronize session state before rendering widget
 if "top_nav_pills" not in st.session_state:
     st.session_state["top_nav_pills"] = st.session_state["nav_selection"]
 elif st.session_state.get("nav_selection") and st.session_state["top_nav_pills"] != st.session_state["nav_selection"]:
@@ -147,22 +117,36 @@ if selected_pill:
 
 page = st.session_state["nav_selection"].split(" ", 1)[1]
 
+# Subtle Context & Account Bar
+c_bar_l, c_bar_r = st.columns([3.8, 1.2], vertical_alignment="center")
+with c_bar_l:
+    if st.session_state.student:
+        stu = st.session_state.student
+        st.html(f'<div style="font-size:0.84rem; color:#475569; padding:4px 2px;">🎓 Ruia Scholar: <b style="color:#701A24;">{stu["name"]}</b> · <i>{stu["program"]}</i> (Year {stu["year"]}) · MySQL <code>Ruia-Buddy</code> Synced</div>')
+    else:
+        st.html('<div style="font-size:0.84rem; color:#64748B; padding:4px 2px;">👋 Welcome, Ruia Scholar! Sign in to sync your study timetables, assignment reminders, and exam schedules.</div>')
+
+with c_bar_r:
+    if st.session_state.student:
+        if st.button("↻ Switch Student", key="top_switch_student_btn", use_container_width=True):
+            st.session_state.student = None
+            st.session_state["nav_selection"] = "🏛️ Welcome"
+            st.session_state["top_nav_pills"] = "🏛️ Welcome"
+            st.rerun()
+    else:
+        if st.button("🔑 Student Sign-In", key="top_btn_signin_fast", use_container_width=True):
+            st.session_state["nav_selection"] = "📊 Academic Dashboard"
+            st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
+            st.rerun()
+
 # Optional AI & System Configuration Panel
 with st.expander("⚙️ RUI AI Companion Configuration & Gemini Key", expanded=False):
     col_ai_info, col_ai_form = st.columns([1.2, 1.8], gap="large")
     with col_ai_info:
-        st.markdown(f"""
-        <h4 style="margin:0 0 6px 0; color:#701A24;">RUI Intelligence System</h4>
-        <p style="font-size:0.88rem; color:#475569; margin:0 0 10px 0;">
-            RUI is the official AI academic buddy for <b>Ramnarain Ruia Autonomous College</b>. Powered by <b>Google Gemini ({active_model})</b>, RUI designs bespoke 7-day study plans, audits resumes against placement cell standards, and generates topic quizzes.
-        </p>
-        <div style="font-size:0.82rem; color:#0F172A; font-weight:600;">
-            Database: <span style="color:#059669;">● MySQL Connected (Ruia-Buddy)</span>
-        </div>
-        """, unsafe_allow_html=True)
+        st.html(f'<h4 style="margin:0 0 6px 0; color:#701A24;">RUI Intelligence System</h4><p style="font-size:0.88rem; color:#475569; margin:0 0 10px 0;">RUI is the official AI academic buddy for <b>Ramnarain Ruia Autonomous College</b>. Powered by <b>Google Gemini ({active_model})</b>, RUI designs bespoke 7-day study plans, audits resumes against placement cell standards, and generates topic quizzes.</p><div style="font-size:0.82rem; color:#0F172A; font-weight:600;">Database: <span style="color:#059669;">● MySQL Connected (Ruia-Buddy)</span></div>')
         if active_key:
             masked = f"{active_key[:6]}...{active_key[-4:]}"
-            st.markdown(f"<div style='font-size:0.78rem; color:#64748B; margin-top:6px;'>Active API Key: <code>{masked}</code></div>", unsafe_allow_html=True)
+            st.html(f'<div style="font-size:0.78rem; color:#64748B; margin-top:6px;">Active API Key: <code>{masked}</code></div>')
     with col_ai_form:
         new_key_input = st.text_input(
             "Enter / Update Gemini API Key",
@@ -195,46 +179,42 @@ with st.expander("⚙️ RUI AI Companion Configuration & Gemini Key", expanded=
                     else:
                         st.error(f"Verification failed: {msg}")
 
-st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
+st.html("<div style='margin-bottom: 22px;'></div>")
 
 # ==============================================================================
-# SIDEBAR DRAWER (COLLAPSIBLE DIAGNOSTIC COMPANION)
+# SIDEBAR DRAWER (OPTIONAL DIAGNOSTIC DRAWER)
 # ==============================================================================
 with st.sidebar:
     st.markdown("### 🏛️ RUI Diagnostics & Portal Info")
     if logo_file.exists():
         st.image(str(logo_file), use_container_width=True)
-    st.markdown("""
-    <div style="font-size:0.82rem; color:#475569; line-height:1.5; margin:10px 0;">
-        <b>Ramnarain Ruia Autonomous College</b><br>
-        <i>Matunga East, Mumbai · Estd. 1937</i><br>
-        NAAC 'A+' Grade (CGPA 3.70 / 4.0)<br>
-        Affiliated with University of Mumbai
-    </div>
-    <hr style="margin:12px 0;">
-    <div style="font-size:0.78rem; color:#0F172A;">
-        <b>System Status:</b><br>
-        ● MySQL (Ruia-Buddy): <span style="color:#059669; font-weight:700;">Online</span><br>
-        ● Top Navigation: <span style="color:#059669; font-weight:700;">Active</span><br>
-        ● Academic Engine: <span style="color:#059669; font-weight:700;">Autonomous NEP 2020</span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div style="font-size:0.82rem; color:#475569; line-height:1.5; margin:10px 0;">
+<b>Ramnarain Ruia Autonomous College</b><br>
+<i>Matunga East, Mumbai · Estd. 1937</i><br>
+NAAC 'A+' Grade (CGPA 3.70 / 4.0)<br>
+Affiliated with University of Mumbai
+</div>
+<hr style="margin:12px 0;">
+<div style="font-size:0.78rem; color:#0F172A;">
+<b>System Status:</b><br>
+● MySQL (Ruia-Buddy): <span style="color:#059669; font-weight:700;">Online</span><br>
+● Top Navigation: <span style="color:#059669; font-weight:700;">Active</span><br>
+● Academic Engine: <span style="color:#059669; font-weight:700;">Autonomous NEP 2020</span>
+</div>""")
 
 # ==============================================================================
 # MAIN PAGE ROUTING & STUDENT AUTHENTICATION
 # ==============================================================================
 if st.session_state.student is None and page != "Welcome":
-    st.markdown("""
-    <div class="admission-card">
-        <div class="admission-card-header">
-            <div class="hero-pill" style="margin-bottom: 8px;">Official Ruia Student Portal</div>
-            <h2 style="margin: 6px 0 8px 0; color: #701A24 !important;">Meet RUI — Student Sign-In & Verification</h2>
-            <p style="color: #475569; font-size: 0.98rem; margin:0;">
-                Connect your academic profile to unlock personalized AI planning, assignment deadlines, and exam schedules stored in your <b>Ruia-Buddy</b> database.
-            </p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""<div class="admission-card">
+<div class="admission-card-header">
+<div class="hero-pill" style="margin-bottom: 8px;">Official Ruia Student Portal</div>
+<h2 style="margin: 6px 0 8px 0; color: #701A24 !important;">Meet RUI — Student Sign-In & Verification</h2>
+<p style="color: #475569; font-size: 0.98rem; margin:0;">
+Connect your academic profile to unlock personalized AI planning, assignment deadlines, and exam schedules stored in your <b>Ruia-Buddy</b> database.
+</p>
+</div>
+</div>""")
 
     c_left, c_center, c_right = st.columns([1, 2.6, 1])
     with c_center:
@@ -333,3 +313,8 @@ elif page == "Quiz Studio":
     quiz.render(st.session_state.student)
 elif page == "Exam Map":
     exams.render(st.session_state.student)
+
+# ==============================================================================
+# MASTER DEDICATED RUI FOOTER (ON ALL PAGES)
+# ==============================================================================
+render_footer()
