@@ -290,8 +290,8 @@ async def generate_study_plan(data: PlanCreate):
         plan_markdown = create_plan(
             student_id=data.student_id,
             subjects=str(subjects).strip(),
-            hours_per_day=int(round(float(hours))),
-            context=full_ctx.strip()
+            hours=int(round(float(hours))),
+            exam_context=full_ctx.strip()
         )
         return {
             "success": True,
@@ -415,7 +415,6 @@ async def analyze_resume_endpoint(data: ResumeReviewRequest):
             target_role += f" ({data.target_company})"
 
         review = review_resume(
-            student_id=data.student_id,
             resume_text=data.resume_text.strip(),
             target_role=target_role
         )
@@ -441,7 +440,7 @@ async def generate_quiz_endpoint(data: QuizGenerateRequest):
             student_id=data.student_id or 1,
             subject=(data.subject or "Autonomous Sciences").strip(),
             topic=data.topic.strip(),
-            kind=kind_desc,
+            format_name=kind_desc,
             count=count
         )
         return {
