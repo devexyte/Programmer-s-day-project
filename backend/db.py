@@ -70,29 +70,39 @@ def execute(query, params=()):
         return cursor.lastrowid
 
 
+def get_all_students():
+    seed_default_data()
+    return fetch_all("SELECT * FROM students ORDER BY student_id DESC")
+
+
+def get_student_by_id(student_id):
+    return fetch_one("SELECT * FROM students WHERE student_id = %s", (student_id,))
+
+
 def get_or_create_student(name, email, program, year):
-    student = fetch_one("SELECT * FROM students WHERE email=%s", (email,))
+    student = fetch_one("SELECT * FROM students WHERE email = %s", (email.strip(),))
     if student:
         return student
     student_id = execute(
         "INSERT INTO students (name, email, program, year) VALUES (%s, %s, %s, %s)",
-        (name, email, program, year)
+        (name.strip(), email.strip(), program.strip(), int(year))
     )
-    return fetch_one("SELECT * FROM students WHERE student_id=%s", (student_id,))
+    return fetch_one("SELECT * FROM students WHERE student_id = %s", (student_id,))
 
 
 def get_all_courses():
+    seed_default_data()
     return fetch_all("SELECT * FROM courses ORDER BY course_name ASC")
 
 
 def get_or_create_course(course_name, course_code=None, year=1):
     if not course_name:
         return None
-    course = fetch_one("SELECT * FROM courses WHERE LOWER(course_name)=LOWER(%s)", (course_name.strip(),))
+    course = fetch_one("SELECT * FROM courses WHERE LOWER(course_name) = LOWER(%s)", (course_name.strip(),))
     if course:
         return course['course_id']
     code = course_code or course_name.strip().upper()[:6].replace(" ", "")
-    existing_code = fetch_one("SELECT * FROM courses WHERE course_code=%s", (code,))
+    existing_code = fetch_one("SELECT * FROM courses WHERE course_code = %s", (code,))
     if existing_code:
         import random
         code = f"{code[:4]}{random.randint(10, 99)}"
@@ -102,26 +112,41 @@ def get_or_create_course(course_name, course_code=None, year=1):
     )
 
 
-def seed_default_courses():
+def seed_default_data():
     try:
         with connection() as conn:
             cursor = conn.cursor(dictionary=True)
+            # 1. Seed courses if empty
             cursor.execute("SELECT COUNT(*) AS cnt FROM courses")
             row = cursor.fetchone()
             if row and row['cnt'] == 0:
                 defaults = [
-                    ("Artificial Intelligence & Machine Learning", "CS-AIML", 3),
-                    ("Data Science & Big Data Analytics", "CS-DS301", 3),
-                    ("Object-Oriented Programming (Python/Java)", "CS-OOP101", 2),
-                    ("Database Management Systems & SQL", "IT-DBMS", 2),
-                    ("Econometrics & Macroeconomic Theory", "ECO-201", 2),
-                    ("Organic & Inorganic Chemistry", "CHEM-102", 1),
-                    ("Biotechnology & Molecular Genetics", "BIO-301", 3),
-                    ("English Literature & Business Communication", "ENG-101", 1),
+                    ("Computer Science (Core AI & Data Structures)", "CS-AIML", 3),
+                    ("Information Technology & Cloud Systems", "IT-CLOUD", 2),
+                    ("Bioanalytical Sciences & Instrumentation", "BIO-ANAL", 3),
+                    ("Biotechnology & Molecular Genetics", "BIO-GEN", 2),
+                    ("Autonomous Economics & Econometrics", "ECO-AUT", 2),
+                    ("Organic & Analytical Chemistry", "CHEM-AUT", 1),
+                    ("English Literature & Academic Discourse", "ENG-COMM", 1),
+                    ("Physics & Applied Electronics", "PHY-ELEC", 2),
                 ]
                 cursor.executemany(
                     "INSERT IGNORE INTO courses (course_name, course_code, year) VALUES (%s, %s, %s)",
                     defaults
+                )
+
+            # 2. Seed demo students if empty
+            cursor.execute("SELECT COUNT(*) AS cnt FROM students")
+            s_row = cursor.fetchone()
+            if s_row and s_row['cnt'] == 0:
+                demo_students = [
+                    ("Aarav Sharma", "aarav.sharma@ruiacollege.edu", "B.Sc. Computer Science (Autonomous)", 3),
+                    ("Ananya Deshmukh", "ananya.deshmukh@ruiacollege.edu", "B.A. Economics (Autonomous)", 2),
+                    ("Tanvi Kulkarni", "tanvi.kulkarni@ruiacollege.edu", "B.Sc. Bioanalytical Sciences", 3),
+                ]
+                cursor.executemany(
+                    "INSERT IGNORE INTO students (name, email, program, year) VALUES (%s, %s, %s, %s)",
+                    demo_students
                 )
     except Exception:
         pass

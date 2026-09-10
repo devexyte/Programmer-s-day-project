@@ -20,10 +20,10 @@ def render(student):
     
     st.markdown(f"""
     <div style="margin-bottom: 24px;">
-        <div class="section-kicker">ACADEMIC COMMAND CENTER</div>
+        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · ACADEMIC COMMAND CENTER</div>
         <h1 style="margin: 0 0 6px 0;">{greeting}, {first_name}.</h1>
         <p style="color: #64748B; font-size: 1.05rem; margin: 0;">
-            Here is the pulse of your semester at <b>Ramnarain Ruia Autonomous College</b>.
+            Enrolled in <b>{student['program']}</b> · Year {student['year']} · Connected to MySQL Database (<b>Ruia-Buddy</b>).
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -46,20 +46,41 @@ def render(student):
     with m4:
         st.metric("AI Study Plan", "Active" if plan else "Not Created")
 
+    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+
+    # Quick Action Bar
+    q1, q2, q3, q4 = st.columns(4)
+    with q1:
+        if st.button("➕ Add Assignment", use_container_width=True):
+            st.session_state["nav_selection"] = "📝 Assignment Desk"
+            st.rerun()
+    with q2:
+        if st.button("⏱️ Schedule Exam", use_container_width=True):
+            st.session_state["nav_selection"] = "⏱️ Exam Map"
+            st.rerun()
+    with q3:
+        if st.button("📅 Update Study Plan", use_container_width=True):
+            st.session_state["nav_selection"] = "📅 Study Planner"
+            st.rerun()
+    with q4:
+        if st.button("🎯 Practice Quiz", use_container_width=True):
+            st.session_state["nav_selection"] = "🎯 Quiz Studio"
+            st.rerun()
+
     st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
 
     # Split View: Deadlines & Exam Horizon
     left_col, right_col = st.columns([1.15, 0.85], gap="large")
 
     with left_col:
-        st.markdown("### 📝 Upcoming Assignments")
+        st.markdown("### 📝 Upcoming Coursework & Deadlines")
         if assignments:
             for item in assignments:
                 days_left = item.get('days_left', 0)
                 status_class = "status-urgent" if days_left <= 2 else "status-pending"
                 due_text = "Today!" if days_left == 0 else (f"Tomorrow" if days_left == 1 else f"in {days_left} days")
                 
-                c1, c2 = st.columns([4, 1])
+                c1, c2 = st.columns([4.2, 1])
                 with c1:
                     st.markdown(f"""
                     <div class="list-item" style="margin-bottom: 8px;">
@@ -75,7 +96,7 @@ def render(student):
                     </div>
                     """, unsafe_allow_html=True)
                 with c2:
-                    if st.button("✓ Done", key=f"done_btn_{item['assignment_id']}", help="Mark as completed"):
+                    if st.button("✓ Done", key=f"done_dash_{item['assignment_id']}", help="Mark as completed", use_container_width=True):
                         try:
                             update_assignment_status(item['assignment_id'], "Completed")
                             st.toast(f"Marked '{item['title']}' as completed! 🎉")
@@ -86,7 +107,7 @@ def render(student):
             st.markdown("""
             <div style="background:#FFF; border:1px dashed #DACDBB; border-radius:12px; padding:24px; text-align:center; color:#71717A;">
                 <p style="margin:0; font-weight:600;">No pending assignment deadlines!</p>
-                <small>Head to the Assignment Desk to add coursework and generate AI reminders.</small>
+                <small>Head to the Assignment Desk to add coursework and generate AI milestone reminders.</small>
             </div>
             """, unsafe_allow_html=True)
 
@@ -102,7 +123,7 @@ def render(student):
                     <div>
                         <div style="font-weight:700; color:#6B0F1A; font-size:1.05rem;">{exam.get('course_name') or 'Degree Examination'}</div>
                         <div style="font-size:0.82rem; color:#64748B; margin-top:4px;">
-                            📍 {exam.get('venue') or 'Main Academic Block'} · 🕒 {exam.get('exam_time') or '10:00 AM'}
+                            📍 {exam.get('venue') or 'Main Academic Heritage Block'} · 🕒 {exam.get('exam_time') or '10:00 AM'}
                         </div>
                         <div style="font-size:0.78rem; color:#A1A1AA; margin-top:2px;">
                             Date: {exam['exam_date']}
@@ -132,6 +153,6 @@ def render(student):
     else:
         st.markdown("""
         <div class="ruia-quote-box" style="margin: 16px 0;">
-            <b>No weekly study plan created yet.</b> Visit the <b>Study Planner</b> to generate an AI-optimized schedule balanced around your subjects and energy.
+            <b>No weekly study plan created yet.</b> Visit the <b>Study Planner</b> to generate an AI-optimized schedule balanced around your autonomous coursework.
         </div>
         """, unsafe_allow_html=True)
