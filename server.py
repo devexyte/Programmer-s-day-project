@@ -302,6 +302,7 @@ async def generate_study_plan(data: PlanCreate):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/api/planner")
 @app.get("/api/planner/latest")
 async def get_latest_study_plan(student_id: int):
     try:

@@ -39,13 +39,15 @@ def find_working_model(key):
                 available.append(name)
         
         if available:
-            # Prefer fast flash models
+            # Prefer fast flash models (gemini-3.6-flash is recommended for new users)
             priority = [
+                "gemini-3.6-flash",
+                "gemini-3.5-flash",
+                "gemini-flash-latest",
                 "gemini-2.5-flash",
                 "gemini-2.0-flash",
                 "gemini-1.5-flash-latest",
                 "gemini-1.5-flash",
-                "gemini-1.5-flash-001",
                 "gemini-1.5-pro",
                 "gemini-pro"
             ]
@@ -58,12 +60,13 @@ def find_working_model(key):
 
     # 2. Fallback candidate probing
     candidates = [
+        "gemini-3.6-flash",
+        "gemini-3.5-flash",
+        "gemini-flash-latest",
         "gemini-2.5-flash",
         "gemini-2.0-flash",
         "gemini-1.5-flash-latest",
-        "gemini-1.5-flash",
-        "gemini-1.5-pro",
-        "gemini-pro"
+        "gemini-1.5-flash"
     ]
     for c in candidates:
         try:
