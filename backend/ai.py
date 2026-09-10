@@ -16,7 +16,7 @@ def get_active_api_key():
     except Exception:
         pass
     key = os.getenv("GEMINI_API_KEY")
-    if key and key.strip() and key.strip() != "your_gemini_api_key":
+    if key and key.strip() and key.strip() != "AQ.Ab8RN6LtGNoYrzkwT0lBLyNcaFgc4QZcG7Srb-nORTSNWVI1jw":
         return key.strip()
     return None
 
