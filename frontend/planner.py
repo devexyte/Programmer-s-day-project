@@ -8,10 +8,10 @@ def render(student):
 
     st.markdown("""
     <div style="margin-bottom: 20px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · ACADEMIC CURRICULUM</div>
+        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI SYLLABUS PLANNER</div>
         <h1 style="margin: 0 0 6px 0;">Official Syllabus Study Planner</h1>
-        <p style="color: #64748B; font-size: 1.05rem; margin: 0;">
-            Reverse-engineered 7-day study timetables tailored to official Ruia College autonomous departments, NEP 2020 course units (DSC/DSE/SEC), and Continuous Internal Assessments (CIA).
+        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
+            Reverse-engineered 7-day study timetables tailored by <b>RUI</b> to official Ruia College autonomous departments, NEP 2020 course units (DSC/DSE/SEC), and Continuous Internal Assessments (CIA).
         </p>
     </div>
     """, unsafe_allow_html=True)

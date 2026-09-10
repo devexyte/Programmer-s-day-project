@@ -2,6 +2,11 @@ from datetime import datetime
 import streamlit as st
 from backend.db import dashboard, update_assignment_status
 
+def _navigate(target):
+    st.session_state["nav_selection"] = target
+    st.session_state["top_nav_pills"] = target
+    st.rerun()
+
 def render(student):
     if not student:
         st.info("Please set up or select your student profile.")
@@ -20,9 +25,9 @@ def render(student):
     
     st.markdown(f"""
     <div style="margin-bottom: 24px;">
-        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · ACADEMIC COMMAND CENTER</div>
+        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI COMMAND CENTER</div>
         <h1 style="margin: 0 0 6px 0;">{greeting}, {first_name}.</h1>
-        <p style="color: #64748B; font-size: 1.05rem; margin: 0;">
+        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
             Enrolled in <b>{student['program']}</b> · Year {student['year']} · Connected to MySQL Database (<b>Ruia-Buddy</b>).
         </p>
     </div>
@@ -44,7 +49,7 @@ def render(student):
         next_exam_days = f"{exams[0]['days_left']}d" if exams else "None"
         st.metric("Closest Exam", next_exam_days)
     with m4:
-        st.metric("AI Study Plan", "Active" if plan else "Not Created")
+        st.metric("RUI Study Plan", "Active" if plan else "Not Created")
 
     st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
 
@@ -52,20 +57,16 @@ def render(student):
     q1, q2, q3, q4 = st.columns(4)
     with q1:
         if st.button("➕ Add Assignment", use_container_width=True):
-            st.session_state["nav_selection"] = "📝 Assignment Desk"
-            st.rerun()
+            _navigate("📝 Assignment Desk")
     with q2:
         if st.button("⏱️ Schedule Exam", use_container_width=True):
-            st.session_state["nav_selection"] = "⏱️ Exam Map"
-            st.rerun()
+            _navigate("⏱️ Exam Map")
     with q3:
         if st.button("📅 Update Study Plan", use_container_width=True):
-            st.session_state["nav_selection"] = "📅 Study Planner"
-            st.rerun()
+            _navigate("📅 Study Planner")
     with q4:
         if st.button("🎯 Practice Quiz", use_container_width=True):
-            st.session_state["nav_selection"] = "🎯 Quiz Studio"
-            st.rerun()
+            _navigate("🎯 Quiz Studio")
 
     st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
 

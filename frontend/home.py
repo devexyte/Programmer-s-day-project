@@ -1,56 +1,62 @@
 from pathlib import Path
 import streamlit as st
 
+def _navigate(target):
+    st.session_state["nav_selection"] = target
+    st.session_state["top_nav_pills"] = target
+    st.rerun()
+
 def render():
     logo_path = Path("assets/logo.png")
     if not logo_path.exists():
         logo_path = Path("assets/logo.jpg")
 
     # Hero Banner
-    hero_col, img_col = st.columns([2.2, 1], gap="large")
+    hero_col, img_col = st.columns([2.3, 1], gap="large")
     
     with hero_col:
         st.markdown("""
-        <div class="hero" style="margin-bottom:0; min-height: 280px; padding: 36px 36px;">
+        <div class="hero">
             <div class="hero-content">
-                <div class="hero-pill">Ramnarain Ruia Autonomous College · Mumbai</div>
-                <h1 style="font-size: 2.8rem !important;">Your academic life,<br><em>beautifully in rhythm.</em></h1>
-                <p class="lead" style="font-size: 1.05rem; margin-bottom: 16px;">
-                    An official digital companion designed for Ruia scholars. Synthesize weekly study schedules, multi-stage assignment milestones, placement cell resume audits, and examination strategy.
+                <div class="hero-pill">
+                    <span>⭐</span>
+                    <span>Official Companion · Ramnarain Ruia Autonomous College</span>
+                </div>
+                <h1>Meet <em>RUI</em> — Your Ruia Student Buddy.</h1>
+                <p class="lead">
+                    An intelligent academic companion crafted specifically for Ruia College scholars. RUI synthesizes syllabus-aligned 7-day study timetables, milestone assignment roadmaps, placement cell resume audits, and examination strategies.
                 </p>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     with img_col:
-        st.markdown("""
-        <div class="sidebar-brand-card" style="margin-top:0; padding: 20px 16px; border: 2.5px solid #C9A86A; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="hero-emblem-card">', unsafe_allow_html=True)
         if logo_path.exists():
             st.image(str(logo_path), use_container_width=True)
         st.markdown("""
-            <div style="font-family:'Playfair Display', serif; font-size:1.05rem; font-weight:700; color:#6B0F1A; margin-top:10px;">Ramnarain Ruia College</div>
-            <div style="font-size:0.75rem; font-weight:800; color:#C9A86A; letter-spacing:0.1em; text-transform:uppercase;">Autonomous · Estd. 1937</div>
-            <div style="font-size:0.72rem; color:#52525B; margin-top:4px; font-style:italic;">Explore · Experience · Excel</div>
+            <div style="font-family:'Playfair Display', serif; font-size:1.1rem; font-weight:700; color:#701A24; margin-top:10px;">Ramnarain Ruia College</div>
+            <div style="font-size:0.75rem; font-weight:800; color:#C5A059; letter-spacing:0.08em; text-transform:uppercase;">Autonomous · Estd. 1937</div>
+            <div style="font-size:0.75rem; color:#475569; margin-top:4px; font-style:italic;">Explore · Experience · Excel</div>
+            <div style="margin-top:10px; background:#F8FAFC; border:1px solid #E2E8F0; padding:4px 10px; border-radius:999px; font-size:0.72rem; font-weight:700; color:#0F172A;">
+                NAAC 'A+' · CGPA 3.70/4.0
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
 
     # Hero Quick-Action Row
     c_act1, c_act2, c_act3 = st.columns(3)
     with c_act1:
         if st.button("📊 Open Academic Dashboard", use_container_width=True, type="primary"):
-            st.session_state["nav_selection"] = "📊 Academic Dashboard"
-            st.rerun()
+            _navigate("📊 Academic Dashboard")
     with c_act2:
-        if st.button("📅 Build 7-Day Study Plan", use_container_width=True):
-            st.session_state["nav_selection"] = "📅 Study Planner"
-            st.rerun()
+        if st.button("📅 Build 7-Day Study Plan with RUI", use_container_width=True):
+            _navigate("📅 Study Planner")
     with c_act3:
         if st.button("🎯 Practice in Quiz Studio", use_container_width=True):
-            st.session_state["nav_selection"] = "🎯 Quiz Studio"
-            st.rerun()
+            _navigate("🎯 Quiz Studio")
 
     st.markdown("<div style='margin-bottom: 28px;'></div>", unsafe_allow_html=True)
 
@@ -76,8 +82,8 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    # Five Horizons Section with INTERACTIVE NAVIGATION BUTTONS
-    st.markdown('<div class="section-kicker">ONE COMPANION · FIVE ACADEMIC PILLARS</div>', unsafe_allow_html=True)
+    # Five Horizons Section with RUI branding & navigation
+    st.markdown('<div class="section-kicker">MEET RUI · FIVE ACADEMIC PILLARS</div>', unsafe_allow_html=True)
     
     col1, col2, col3, col4, col5 = st.columns(5)
     
@@ -90,8 +96,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         if st.button("Launch Planner →", key="home_btn_planner", use_container_width=True):
-            st.session_state["nav_selection"] = "📅 Study Planner"
-            st.rerun()
+            _navigate("📅 Study Planner")
 
     with col2:
         st.markdown("""
@@ -102,8 +107,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         if st.button("Open Desk →", key="home_btn_assignments", use_container_width=True):
-            st.session_state["nav_selection"] = "📝 Assignment Desk"
-            st.rerun()
+            _navigate("📝 Assignment Desk")
 
     with col3:
         st.markdown("""
@@ -114,8 +118,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         if st.button("Review Resume →", key="home_btn_resume", use_container_width=True):
-            st.session_state["nav_selection"] = "📑 Resume Lab"
-            st.rerun()
+            _navigate("📑 Resume Lab")
 
     with col4:
         st.markdown("""
@@ -126,8 +129,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         if st.button("Start Quiz →", key="home_btn_quiz", use_container_width=True):
-            st.session_state["nav_selection"] = "🎯 Quiz Studio"
-            st.rerun()
+            _navigate("🎯 Quiz Studio")
 
     with col5:
         st.markdown("""
@@ -138,8 +140,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         if st.button("Open Exam Map →", key="home_btn_exams", use_container_width=True):
-            st.session_state["nav_selection"] = "⏱️ Exam Map"
-            st.rerun()
+            _navigate("⏱️ Exam Map")
 
     st.markdown("<div style='margin-bottom: 24px;'></div>", unsafe_allow_html=True)
 
@@ -159,7 +160,7 @@ def render():
             <span>Ramnarain Ruia Autonomous College · Matunga East, Mumbai 400019</span>
         </div>
         <div>
-            <span>Official Student AI Companion · Powered by MySQL & Gemini</span>
+            <span>RUI — The Ruia Student Buddy · Powered by MySQL & Gemini</span>
         </div>
     </div>
     """, unsafe_allow_html=True)

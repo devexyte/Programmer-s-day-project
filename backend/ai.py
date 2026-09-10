@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -6,25 +7,174 @@ import google.generativeai as genai
 load_dotenv()
 
 
-def is_gemini_configured():
+def get_active_api_key():
+    try:
+        import streamlit as st
+        k = st.session_state.get("custom_gemini_api_key")
+        if k and k.strip():
+            return k.strip()
+    except Exception:
+        pass
     key = os.getenv("GEMINI_API_KEY")
-    return bool(key and key.strip() and key.strip() != "your_gemini_api_key")
+    if key and key.strip() and key.strip() != "your_gemini_api_key":
+        return key.strip()
+    return None
+
+
+def is_gemini_configured():
+    return bool(get_active_api_key())
+
+
+def find_working_model(key):
+    key_clean = key.strip()
+    genai.configure(api_key=key_clean)
+    
+    # 1. Dynamically query available models from list_models()
+    try:
+        available = []
+        for m in genai.list_models():
+            methods = getattr(m, "supported_generation_methods", [])
+            if "generateContent" in methods:
+                name = m.name.replace("models/", "")
+                available.append(name)
+        
+        if available:
+            # Prefer fast flash models
+            priority = [
+                "gemini-2.5-flash",
+                "gemini-2.0-flash",
+                "gemini-1.5-flash-latest",
+                "gemini-1.5-flash",
+                "gemini-1.5-flash-001",
+                "gemini-1.5-pro",
+                "gemini-pro"
+            ]
+            for p in priority:
+                if p in available:
+                    return p, available
+            return available[0], available
+    except Exception:
+        pass
+
+    # 2. Fallback candidate probing
+    candidates = [
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        "gemini-1.5-flash-latest",
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+        "gemini-pro"
+    ]
+    for c in candidates:
+        try:
+            m = genai.GenerativeModel(c)
+            r = m.generate_content("Ping")
+            if r and r.text:
+                return c, [c]
+        except Exception:
+            continue
+
+    return "gemini-2.5-flash", []
+
+
+def save_api_key_to_env(key, model_name="gemini-2.5-flash"):
+    key_clean = key.strip()
+    env_path = Path(".env")
+    if not env_path.exists():
+        env_path = Path(__file__).resolve().parent.parent / ".env"
+
+    lines = []
+    if env_path.exists():
+        lines = env_path.read_text(encoding="utf-8").splitlines()
+
+    new_lines = []
+    replaced_key = False
+    replaced_model = False
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("GEMINI_API_KEY=") or stripped.startswith("#GEMINI_API_KEY="):
+            new_lines.append(f"GEMINI_API_KEY={key_clean}")
+            replaced_key = True
+        elif stripped.startswith("GEMINI_MODEL=") or stripped.startswith("#GEMINI_MODEL="):
+            new_lines.append(f"GEMINI_MODEL={model_name}")
+            replaced_model = True
+        else:
+            new_lines.append(line)
+
+    if not replaced_key:
+        new_lines.append(f"GEMINI_API_KEY={key_clean}")
+    if not replaced_model:
+        new_lines.append(f"GEMINI_MODEL={model_name}")
+
+    env_path.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
+    os.environ["GEMINI_API_KEY"] = key_clean
+    os.environ["GEMINI_MODEL"] = model_name
+
+
+def test_gemini_connection(key):
+    try:
+        best_model, all_models = find_working_model(key)
+        
+        # Test content generation with discovered model
+        model = genai.GenerativeModel(best_model)
+        resp = model.generate_content("Respond with: Ruia AI Connected.")
+        
+        return True, best_model, resp.text.strip()
+    except Exception as e:
+        err_str = str(e)
+        if "API_KEY_INVALID" in err_str or "API key not valid" in err_str:
+            friendly = "Invalid API Key. Please verify the key copied from Google AI Studio."
+        elif "PERMISSION_DENIED" in err_str or "Generative Language API" in err_str:
+            friendly = "Generative Language API is not enabled for this key. Get a key directly from https://aistudio.google.com/app/apikey"
+        elif "404" in err_str:
+            friendly = "Model not found on this API endpoint. Ensure your key is generated from Google AI Studio (https://aistudio.google.com/app/apikey)."
+        else:
+            friendly = err_str
+        return False, None, friendly
 
 
 def generate(prompt):
-    key = os.getenv("GEMINI_API_KEY")
-    if not is_gemini_configured():
+    active_key = get_active_api_key()
+    if not active_key:
         return _mock_ai_response(prompt)
 
     try:
-        genai.configure(api_key=key.strip())
-        model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
-        model = genai.GenerativeModel(model_name)
-        response = model.generate_content(prompt)
-        return response.text
+        genai.configure(api_key=active_key)
+        configured_model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        
+        # Priority list of model candidates for resilient fallback
+        candidates = [
+            configured_model,
+            "gemini-2.5-flash",
+            "gemini-2.0-flash",
+            "gemini-1.5-flash-latest",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro",
+            "gemini-pro"
+        ]
+        
+        # Deduplicate while preserving order
+        seen = set()
+        unique_candidates = [c for c in candidates if not (c in seen or seen.add(c))]
+
+        last_exc = None
+        for cand in unique_candidates:
+            try:
+                model = genai.GenerativeModel(cand)
+                response = model.generate_content(prompt)
+                if response and response.text:
+                    return response.text
+            except Exception as e:
+                last_exc = e
+                continue
+                
+        if last_exc:
+            raise last_exc
+        return _mock_ai_response(prompt)
     except Exception as exc:
         fallback = _mock_ai_response(prompt)
-        return f"> ⚠️ **Notice**: Gemini API encountered an issue ({exc}). Displaying Ruia College curriculum model.\n\n{fallback}"
+        return f"> ⚠️ **Notice**: Live Gemini call encountered an issue ({exc}). Displaying Ruia College curriculum model.\n\n{fallback}"
 
 
 def generate_study_plan(subjects, hours, exam_context="None supplied"):
@@ -113,7 +263,7 @@ REQUIREMENTS:
 
 def _mock_ai_response(prompt):
     prompt_lower = prompt.lower()
-    prefix = "> ✦ **Ruia AI Academic Companion** *(Official Autonomous Curriculum Model · Add `GEMINI_API_KEY` in `.env` for custom live generation)*\n\n"
+    prefix = "> ✦ **Ruia AI Academic Companion** *(Official Autonomous Curriculum Model · Add `GEMINI_API_KEY` in `.env` or in Sidebar Settings for custom live generation)*\n\n"
 
     if "study plan" in prompt_lower or "timetable" in prompt_lower:
         return prefix + """### 🏛️ Ramnarain Ruia Autonomous College · 7-Day Academic Timetable

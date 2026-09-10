@@ -11,10 +11,10 @@ def render(student):
 
     st.markdown("""
     <div style="margin-bottom: 20px;">
-        <div class="section-kicker">EXAMINATION STRATEGY & COUNTDOWNS</div>
+        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI EXAM MAP</div>
         <h1 style="margin: 0 0 6px 0;">Exam Map & Revision Architect</h1>
-        <p style="color: #64748B; font-size: 1.05rem; margin: 0;">
-            Keep track of Mumbai University / Autonomous exam venues, countdown clocks, and spaced repetition revision master schedules.
+        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
+            Keep track of Mumbai University / Autonomous exam venues, countdown clocks, and let <b>RUI</b> architect your spaced repetition revision master schedules.
         </p>
     </div>
     """, unsafe_allow_html=True)

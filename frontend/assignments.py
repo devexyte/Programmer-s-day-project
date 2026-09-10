@@ -12,10 +12,10 @@ def render(student):
 
     st.markdown("""
     <div style="margin-bottom: 20px;">
-        <div class="section-kicker">ACADEMIC DEADLINE COMPANION</div>
+        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI ASSIGNMENT DESK</div>
         <h1 style="margin: 0 0 6px 0;">Assignment Desk & Milestone Reminders</h1>
-        <p style="color: #64748B; font-size: 1.05rem; margin: 0;">
-            Track collegiate coursework, submissions, and automatically synthesize multi-stage preparation checkpoints.
+        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
+            Track collegiate coursework, submissions, and let <b>RUI</b> automatically synthesize multi-stage preparation checkpoints.
         </p>
     </div>
     """, unsafe_allow_html=True)

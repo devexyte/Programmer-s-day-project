@@ -1,403 +1,486 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+/* ==========================================================================
+   DESIGN TOKENS — MODERN LUXURY NEUTRAL (WHITE, GREY, BEIGE, CHARCOAL & RUIA PRESTIGE)
+   ========================================================================== */
 :root {
-  --ruia-maroon: #6B0F1A;
-  --ruia-maroon-dark: #42060D;
-  --ruia-maroon-light: #8E1626;
-  --ruia-maroon-subtle: #F7EBEC;
-  --ruia-gold: #C9A86A;
-  --ruia-gold-light: #F3E5C8;
-  --ruia-gold-dark: #9F7B38;
-  --ruia-gold-accent: #E5C383;
-  --ruia-bg: #FAF8F5;
-  --ruia-card-bg: #FFFFFF;
-  --ruia-ink: #18181B;
-  --ruia-ink-muted: #52525B;
-  --ruia-border: #E8DFD3;
-  --ruia-border-gold: rgba(201, 168, 106, 0.35);
-  --ruia-shadow-sm: 0 2px 8px rgba(74, 10, 18, 0.05);
-  --ruia-shadow-md: 0 10px 25px -4px rgba(74, 10, 18, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
-  --ruia-shadow-lg: 0 20px 40px -8px rgba(74, 10, 18, 0.14), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+  /* Surfaces */
+  --rui-bg: #F8FAFC;
+  --rui-bg-canvas: #FAF9F6;
+  --rui-card-bg: #FFFFFF;
+  --rui-surface-hover: #F1F5F9;
+  --rui-surface-subtle: #F8F9FA;
+  --rui-surface-warm: #FAF8F5;
+  --rui-surface-beige: #F4EFEA;
+  
+  /* Text & Ink (CRITICAL: Sharp, high-contrast, zero white-on-light) */
+  --rui-ink-strong: #0F172A;
+  --rui-ink: #1E293B;
+  --rui-ink-secondary: #475569;
+  --rui-ink-muted: #64748B;
+  --rui-ink-subtle: #94A3B8;
+  
+  /* Borders */
+  --rui-border-light: #E2E8F0;
+  --rui-border-medium: #CBD5E1;
+  --rui-border-warm: #E6DFD5;
+  --rui-border-gold: rgba(197, 160, 89, 0.45);
+  
+  /* Prestige Accents */
+  --rui-maroon: #701A24;
+  --rui-maroon-dark: #4A0E16;
+  --rui-maroon-light: #8E212E;
+  --rui-maroon-subtle: #FDF2F4;
+  --rui-gold: #C5A059;
+  --rui-gold-light: #F7F1E5;
+  --rui-gold-dark: #97732C;
+  --rui-emerald: #059669;
+  --rui-emerald-subtle: #ECFDF5;
+  --rui-amber: #D97706;
+  --rui-blue: #2563EB;
+  
+  /* Shadows & Elevations */
+  --rui-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --rui-shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
+  --rui-shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --rui-shadow-lg: 0 20px 35px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  --rui-shadow-hover: 0 14px 30px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(112, 26, 36, 0.08);
+
+  /* Spacing & Radii */
+  --rui-radius-sm: 8px;
+  --rui-radius-md: 12px;
+  --rui-radius-lg: 16px;
+  --rui-radius-xl: 24px;
+  --rui-radius-pill: 9999px;
+  
+  /* Transitions */
+  --rui-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --rui-transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --rui-transition-bounce: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Base Application Background & Typography */
+/* ==========================================================================
+   GLOBAL APP BACKGROUND & TYPOGRAPHY
+   ========================================================================== */
 .stApp {
-  background-color: var(--ruia-bg);
+  background-color: var(--rui-bg);
   background-image: 
-    radial-gradient(at 100% 0%, rgba(201, 168, 106, 0.08) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(107, 15, 26, 0.06) 0px, transparent 50%);
-  color: var(--ruia-ink);
+    radial-gradient(at 100% 0%, rgba(197, 160, 89, 0.07) 0px, transparent 40%),
+    radial-gradient(at 0% 100%, rgba(112, 26, 36, 0.04) 0px, transparent 50%),
+    linear-gradient(180deg, #FAF9F6 0%, #F8FAFC 100%);
+  color: var(--rui-ink);
   font-family: 'Plus Jakarta Sans', 'DM Sans', -apple-system, sans-serif;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  line-height: 1.6;
 }
 
-/* Custom Scrollbar */
+/* Main Container Padding & Top Spacing */
+.stMainBlockContainer {
+  padding-top: 1.5rem !important;
+  padding-bottom: 3rem !important;
+  max-width: 1400px !important;
+}
+
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1ECE3;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C9A86A;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8E1626;
+  background: var(--rui-maroon);
 }
 
 /* ==========================================================================
-   DROPDOWN & SELECTBOX VISIBILITY FIXES (CRITICAL BASEWEB OVERRIDES)
+   STRICT READABILITY & TEXT CONTRAST ENFORCEMENT (NO WHITE ON LIGHT)
    ========================================================================== */
-
-/* Dropdown popover menu container */
-div[data-baseweb="popover"],
-div[data-baseweb="menu"] {
-  background-color: #FFFFFF !important;
-  border: 1.5px solid var(--ruia-gold) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 14px 38px rgba(74, 10, 18, 0.22) !important;
-  z-index: 9999999 !important;
-  overflow: hidden !important;
+.stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+  color: var(--rui-ink-strong) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
-/* Listbox container */
-ul[role="listbox"],
-div[role="listbox"] {
-  background-color: #FFFFFF !important;
-  padding: 6px !important;
-  border-radius: 10px !important;
+.stApp h1 {
+  font-size: 2.2rem;
+  line-height: 1.25;
+}
+.stApp h2 {
+  font-size: 1.6rem;
+  line-height: 1.3;
+}
+.stApp h3 {
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
 
-/* Each item option inside selectbox dropdown */
-li[role="option"],
-div[role="option"] {
-  background-color: #FFFFFF !important;
-  color: #18181B !important;
-  padding: 11px 16px !important;
-  border-radius: 8px !important;
-  font-size: 0.95rem !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-  margin-bottom: 2px !important;
-  border-bottom: 1px solid #F5EFE6 !important;
+.stApp p, .stApp span, .stApp label, .stApp div[data-testid="stMarkdownContainer"] p {
+  color: var(--rui-ink) !important;
 }
 
-/* Text and children inside dropdown options */
-li[role="option"] *,
-div[role="option"] * {
-  color: #18181B !important;
-  font-weight: 500 !important;
-}
-
-/* Option Hover and Selected States - High Visibility Maroon & Gold */
-li[role="option"]:hover,
-div[role="option"]:hover,
-li[role="option"][aria-selected="true"],
-div[role="option"][aria-selected="true"] {
-  background: linear-gradient(90deg, #FBF0F1 0%, #FFFFFF 100%) !important;
-  color: #6B0F1A !important;
-  border-left: 4px solid var(--ruia-gold) !important;
-}
-
-li[role="option"]:hover *,
-div[role="option"]:hover *,
-li[role="option"][aria-selected="true"] *,
-div[role="option"][aria-selected="true"] * {
-  color: #6B0F1A !important;
-  font-weight: 700 !important;
-}
-
-/* Selectbox input box itself */
-div[data-baseweb="select"] {
-  background-color: #FFFFFF !important;
-  border: 1.5px solid #D5C9B8 !important;
-  border-radius: 10px !important;
-  color: #18181B !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
-  transition: all 0.2s ease !important;
-}
-
-div[data-baseweb="select"] * {
-  color: #18181B !important;
-  font-size: 0.95rem !important;
-  font-weight: 500 !important;
-}
-
-div[data-baseweb="select"]:hover,
-div[data-baseweb="select"]:focus-within {
-  border-color: var(--ruia-gold) !important;
-  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.28) !important;
+.stApp small, .stApp .text-muted {
+  color: var(--rui-ink-muted) !important;
 }
 
 /* ==========================================================================
-   SIDEBAR BRANDING & HIGH-CONTRAST NAVIGATION
+   TOP HORIZONTAL NAVIGATION BAR (THE MODERN HEADER DOCK)
    ========================================================================== */
-
-section[data-testid='stSidebar'] {
-  background: linear-gradient(180deg, #38050B 0%, #4D0911 35%, #680E1A 100%) !important;
-  border-right: 1.5px solid rgba(201, 168, 106, 0.35) !important;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
-}
-
-/* Sidebar Headings and Labels */
-section[data-testid='stSidebar'] h1, 
-section[data-testid='stSidebar'] h2, 
-section[data-testid='stSidebar'] h3,
-section[data-testid='stSidebar'] p,
-section[data-testid='stSidebar'] span {
-  color: #FFFFFF;
-}
-
-/* Sidebar Logo Badge Card */
-.sidebar-brand-card {
-  background: #FFFFFF;
-  border-radius: 14px;
-  padding: 14px 12px;
-  border: 2px solid var(--ruia-gold);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+.rui-top-navbar {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--rui-border-light);
+  border-radius: var(--rui-radius-xl);
+  padding: 10px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  z-index: 100;
+  animation: ruiSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.sidebar-brand-card img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 6px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+@keyframes ruiSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.sidebar-brand-sub {
-  margin-top: 8px;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  font-weight: 800;
-  color: var(--ruia-maroon) !important;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-/* Profile Badge in Sidebar */
-.sidebar-profile-card {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(201, 168, 106, 0.45);
-  border-radius: 12px;
-  padding: 14px;
-  margin: 8px 0 14px 0;
+/* Brand Logo + Wordmark in Top Nav */
+.rui-brand-box {
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
 }
 
-.sidebar-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--ruia-gold) 0%, #FFE8B8 100%);
-  color: var(--ruia-maroon-dark) !important;
-  font-family: 'Playfair Display', serif;
+.rui-brand-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1.5px solid var(--rui-gold);
+  object-fit: contain;
+  background: #FFFFFF;
+  padding: 2px;
+  box-shadow: var(--rui-shadow-xs);
+  transition: var(--rui-transition-smooth);
+}
+
+.rui-brand-logo:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.rui-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.rui-brand-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.25rem;
   font-weight: 800;
-  font-size: 1.2rem;
+  color: var(--rui-maroon) !important;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  flex-shrink: 0;
+  gap: 6px;
 }
 
-.sidebar-profile-info {
-  overflow: hidden;
+.rui-brand-tag {
+  background: var(--rui-gold-light);
+  color: var(--rui-gold-dark) !important;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: var(--rui-radius-pill);
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(197, 160, 89, 0.3);
 }
 
-.sidebar-profile-name {
-  font-weight: 700;
-  font-size: 0.98rem;
-  color: #FFFFFF !important;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.sidebar-profile-dept {
-  font-size: 0.75rem;
-  color: #F8E7C4 !important;
+.rui-brand-subtitle {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--rui-ink-muted) !important;
   letter-spacing: 0.02em;
 }
 
-/* Sidebar Radio Navigation — ULTRA VISIBILITY FIX */
-section[data-testid='stSidebar'] .stRadio > div {
-  gap: 5px;
-}
-
-section[data-testid='stSidebar'] .stRadio label {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  padding: 10px 14px;
-  margin-bottom: 4px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+/* RUI Quick Pill Chips on Right side of Header */
+.rui-header-actions {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
-section[data-testid='stSidebar'] .stRadio label p,
-section[data-testid='stSidebar'] .stRadio label div,
-section[data-testid='stSidebar'] .stRadio label span {
+.rui-student-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--rui-surface-subtle);
+  border: 1px solid var(--rui-border-light);
+  padding: 6px 12px;
+  border-radius: var(--rui-radius-pill);
+  transition: var(--rui-transition-fast);
+}
+
+.rui-student-chip:hover {
+  background: #FFFFFF;
+  border-color: var(--rui-border-medium);
+  box-shadow: var(--rui-shadow-xs);
+}
+
+.rui-student-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rui-maroon) 0%, #9F1239 100%);
   color: #FFFFFF !important;
-  font-weight: 600 !important;
-  font-size: 0.92rem !important;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-section[data-testid='stSidebar'] .stRadio label:hover {
-  background: rgba(201, 168, 106, 0.22);
-  border-color: var(--ruia-gold);
-  transform: translateX(4px);
-}
-
-/* Active Selected Radio Item in Sidebar: Bright Gold Pill with Deep Maroon Text */
-section[data-testid='stSidebar'] .stRadio label:has(input:checked),
-section[data-testid='stSidebar'] .stRadio label[data-checked="true"] {
-  background: linear-gradient(90deg, #C9A86A 0%, #E5C383 100%) !important;
-  border: 1.5px solid #FFFFFF !important;
-  border-left: 5px solid #FFFFFF !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
-  transform: translateX(4px);
-}
-
-section[data-testid='stSidebar'] .stRadio label:has(input:checked) p,
-section[data-testid='stSidebar'] .stRadio label:has(input:checked) div,
-section[data-testid='stSidebar'] .stRadio label:has(input:checked) span,
-section[data-testid='stSidebar'] .stRadio label[data-checked="true"] p,
-section[data-testid='stSidebar'] .stRadio label[data-checked="true"] div,
-section[data-testid='stSidebar'] .stRadio label[data-checked="true"] span {
-  color: #38050B !important;
-  font-weight: 800 !important;
-}
-
-/* ==========================================================================
-   MAIN APP RADIO & TABS & CHECKBOXES VISIBILITY
-   ========================================================================== */
-
-/* Main content radio options */
-.stApp div[data-testid="stRadio"] label {
-  color: #18181B !important;
-  font-weight: 600 !important;
-}
-
-.stApp div[data-testid="stRadio"] label p,
-.stApp div[data-testid="stRadio"] label div,
-.stApp div[data-testid="stRadio"] label span {
-  color: #18181B !important;
-}
-
-/* Checkboxes */
-div[data-testid="stCheckbox"] label {
-  color: #18181B !important;
-  font-weight: 500 !important;
-}
-
-div[data-testid="stCheckbox"] label p {
-  color: #18181B !important;
-}
-
-/* Streamlit Tabs Navigation Overhaul */
-button[data-baseweb="tab"] {
-  color: #52525B !important;
-  font-size: 0.95rem !important;
-  font-weight: 600 !important;
-  padding: 12px 20px !important;
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 2px solid transparent !important;
-  transition: all 0.2s ease !important;
-}
-
-button[data-baseweb="tab"]:hover {
-  color: var(--ruia-maroon) !important;
-  background: rgba(201, 168, 106, 0.08) !important;
-  border-radius: 8px 8px 0 0 !important;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] {
-  color: var(--ruia-maroon) !important;
-  font-weight: 800 !important;
-  border-bottom: 3.5px solid var(--ruia-gold) !important;
-  background: #FFFFFF !important;
-  border-radius: 8px 8px 0 0 !important;
-  box-shadow: 0 -3px 10px rgba(74, 10, 18, 0.04) !important;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] p,
-button[data-baseweb="tab"][aria-selected="true"] div {
-  color: var(--ruia-maroon) !important;
-  font-weight: 800 !important;
-}
-
-/* Calendar Date Input Popover */
-div[data-baseweb="calendar"] {
-  background-color: #FFFFFF !important;
-  border: 1.5px solid var(--ruia-gold) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 12px 30px rgba(74, 10, 18, 0.2) !important;
-  padding: 12px !important;
-}
-
-div[data-baseweb="calendar"] * {
-  color: #18181B !important;
-}
-
-div[data-baseweb="calendar"] button:hover {
-  background-color: #F7EBEC !important;
-  color: var(--ruia-maroon) !important;
-}
-
-/* ==========================================================================
-   HEADINGS & HERO SECTION
-   ========================================================================== */
-
-h1, h2, h3, h4 {
-  font-family: 'Playfair Display', Georgia, serif !important;
-  color: var(--ruia-maroon) !important;
+.rui-student-name {
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  color: var(--rui-ink) !important;
 }
 
-h1 {
-  font-size: 2.6rem !important;
-  line-height: 1.2;
+.rui-ai-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--rui-emerald-subtle);
+  border: 1px solid rgba(5, 150, 105, 0.25);
+  color: var(--rui-emerald) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--rui-radius-pill);
+  letter-spacing: 0.02em;
 }
 
-h2 {
-  font-size: 1.85rem !important;
-  margin-top: 0.8rem;
+.rui-ai-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--rui-emerald);
+  box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7);
+  animation: ruiPulse 2s infinite;
 }
 
-h3 {
-  font-size: 1.35rem !important;
+@keyframes ruiPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 7px rgba(5, 150, 105, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
+  }
+}
+
+/* ==========================================================================
+   STREAMLIT PILLS (TOP HORIZONTAL NAVIGATION ENGINE)
+   ========================================================================== */
+div[data-testid="stPills"],
+div[data-testid="stSegmentedControl"] {
+  background: rgba(248, 250, 252, 0.85) !important;
+  border: 1px solid var(--rui-border-light) !important;
+  border-radius: var(--rui-radius-pill) !important;
+  padding: 5px 8px !important;
+  gap: 6px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Individual Pill Buttons */
+div[data-testid="stPills"] button,
+div[data-testid="stSegmentedControl"] button {
+  background: transparent !important;
+  color: var(--rui-ink-secondary) !important;
+  border: none !important;
+  border-radius: var(--rui-radius-pill) !important;
+  padding: 8px 16px !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: var(--rui-transition-smooth) !important;
+  white-space: nowrap !important;
+}
+
+div[data-testid="stPills"] button p,
+div[data-testid="stSegmentedControl"] button p,
+div[data-testid="stPills"] button span,
+div[data-testid="stSegmentedControl"] button span {
+  color: var(--rui-ink-secondary) !important;
+  font-weight: 600 !important;
+}
+
+/* Hover Pill */
+div[data-testid="stPills"] button:hover,
+div[data-testid="stSegmentedControl"] button:hover {
+  background: #FFFFFF !important;
+  color: var(--rui-ink-strong) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
+  transform: translateY(-1px) !important;
+}
+
+div[data-testid="stPills"] button:hover p,
+div[data-testid="stSegmentedControl"] button:hover p {
+  color: var(--rui-ink-strong) !important;
+}
+
+/* Active Selected Pill: Rich Deep Charcoal or Maroon with crisp White Text */
+div[data-testid="stPills"] button[aria-selected="true"],
+div[data-testid="stSegmentedControl"] button[aria-selected="true"],
+div[data-testid="stPills"] button[data-selected="true"],
+div[data-testid="stSegmentedControl"] button[data-selected="true"],
+div[data-testid="stPills"] button[kind="primary"] {
+  background: linear-gradient(135deg, var(--rui-maroon) 0%, #4A0E16 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+div[data-testid="stPills"] button[aria-selected="true"] p,
+div[data-testid="stSegmentedControl"] button[aria-selected="true"] p,
+div[data-testid="stPills"] button[aria-selected="true"] span,
+div[data-testid="stSegmentedControl"] button[aria-selected="true"] span,
+div[data-testid="stPills"] button[data-selected="true"] p,
+div[data-testid="stSegmentedControl"] button[data-selected="true"] p {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   BUTTON DESIGN SYSTEM (PREMIUM HIGH-CONTRAST)
+   ========================================================================== */
+/* All Streamlit Buttons */
+.stButton > button {
+  background-color: #FFFFFF !important;
+  color: var(--rui-ink-strong) !important;
+  border: 1.5px solid var(--rui-border-medium) !important;
+  border-radius: var(--rui-radius-md) !important;
+  padding: 10px 20px !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  box-shadow: var(--rui-shadow-xs) !important;
+  transition: var(--rui-transition-smooth) !important;
+}
+
+.stButton > button p,
+.stButton > button span,
+.stButton > button div {
+  color: var(--rui-ink-strong) !important;
+  font-weight: 600 !important;
+}
+
+.stButton > button:hover {
+  background-color: #F8FAFC !important;
+  border-color: var(--rui-ink-muted) !important;
+  color: var(--rui-ink-strong) !important;
+  box-shadow: var(--rui-shadow-sm) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Primary Action Buttons (Prestige Maroon / Dark Charcoal) */
+.stButton > button[kind="primary"],
+.stButton > button[data-testid="stBaseButton-primary"],
+button.st-emotion-cache-19rxjzo[kind="primary"] {
+  background: linear-gradient(135deg, var(--rui-maroon) 0%, #520D15 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.25) !important;
+}
+
+.stButton > button[kind="primary"] p,
+.stButton > button[kind="primary"] span,
+.stButton > button[kind="primary"] div,
+.stButton > button[data-testid="stBaseButton-primary"] p,
+.stButton > button[data-testid="stBaseButton-primary"] span {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+.stButton > button[kind="primary"]:hover,
+.stButton > button[data-testid="stBaseButton-primary"]:hover {
+  background: linear-gradient(135deg, var(--rui-maroon-light) 0%, var(--rui-maroon) 100%) !important;
+  box-shadow: 0 6px 20px rgba(112, 26, 36, 0.35) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Form Submit Buttons */
+div[data-testid="stFormSubmitButton"] > button {
+  background: linear-gradient(135deg, var(--rui-maroon) 0%, #4A0E16 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(112, 26, 36, 0.25) !important;
+}
+
+div[data-testid="stFormSubmitButton"] > button p,
+div[data-testid="stFormSubmitButton"] > button span {
+  color: #FFFFFF !important;
+}
+
+div[data-testid="stFormSubmitButton"] > button:hover {
+  box-shadow: 0 6px 20px rgba(112, 26, 36, 0.35) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ==========================================================================
+   CARD SYSTEM & SECTIONS
+   ========================================================================== */
+/* Master Card Container */
+.rui-card {
+  background: #FFFFFF;
+  border: 1px solid var(--rui-border-light);
+  border-radius: var(--rui-radius-lg);
+  padding: 24px;
+  box-shadow: var(--rui-shadow-sm);
+  transition: var(--rui-transition-smooth);
+  margin-bottom: 20px;
+}
+
+.rui-card:hover {
+  border-color: var(--rui-border-medium);
+  box-shadow: var(--rui-shadow-md);
 }
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(125deg, #42060D 0%, #680E1A 45%, #851322 80%, #9E1D2E 100%);
-  border-radius: 20px;
-  padding: 46px 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  color: #FFFFFF;
-  box-shadow: var(--ruia-shadow-lg);
-  margin-bottom: 30px;
+  background: linear-gradient(145deg, #FFFFFF 0%, #FAF8F5 50%, #F4EFEA 100%);
+  border: 1px solid var(--rui-border-warm);
+  border-radius: var(--rui-radius-xl);
+  padding: 40px 48px;
+  margin-bottom: 28px;
+  box-shadow: var(--rui-shadow-md);
   position: relative;
   overflow: hidden;
-  border: 1.5px solid rgba(201, 168, 106, 0.4);
+  animation: ruiFadeIn 0.5s ease;
 }
 
 .hero::after {
@@ -405,85 +488,136 @@ h3 {
   position: absolute;
   top: -50%;
   right: -20%;
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, rgba(201, 168, 106, 0.24) 0%, transparent 70%);
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 660px;
+@keyframes ruiFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(201, 168, 106, 0.22);
-  border: 1px solid rgba(201, 168, 106, 0.5);
-  color: #F8E7C4 !important;
+  gap: 6px;
+  background: #FFFFFF;
+  color: var(--rui-maroon) !important;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  padding: 6px 14px;
-  border-radius: 9999px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  padding: 5px 14px;
+  border-radius: var(--rui-radius-pill);
+  border: 1px solid var(--rui-border-warm);
+  box-shadow: var(--rui-shadow-xs);
+  margin-bottom: 14px;
 }
 
 .hero h1 {
-  color: #FFFFFF !important;
-  font-size: 3rem !important;
-  margin: 0 0 14px 0 !important;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.9rem !important;
+  font-weight: 800;
+  color: var(--rui-ink-strong) !important;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
   line-height: 1.15;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero h1 em {
   font-style: italic;
-  color: var(--ruia-gold-light);
+  color: var(--rui-maroon);
 }
 
-.hero .lead {
-  font-size: 1.12rem;
+.hero p.lead {
+  font-size: 1.1rem;
+  color: var(--rui-ink-secondary) !important;
+  max-width: 680px;
   line-height: 1.6;
-  opacity: 0.95;
-  color: #F8EFE4;
   margin-bottom: 20px;
 }
 
-.hero-logo-box {
+/* Hero Badge Card (Right side) */
+.hero-emblem-card {
   background: #FFFFFF;
-  border-radius: 16px;
-  padding: 16px;
-  border: 3px solid var(--ruia-gold);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-  max-width: 220px;
-  flex-shrink: 0;
+  border: 2px solid var(--rui-gold);
+  border-radius: var(--rui-radius-lg);
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1;
+  justify-content: center;
+  text-align: center;
+  box-shadow: var(--rui-shadow-md);
+  height: 100%;
 }
 
-.hero-logo-box img {
-  width: 100%;
+.hero-emblem-card img {
+  max-width: 130px;
   height: auto;
   border-radius: 8px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
 }
 
-.hero-motto {
-  margin-top: 8px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: var(--ruia-maroon);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* Feature Horizon Cards */
+.feature-card {
+  background: #FFFFFF;
+  border: 1px solid var(--rui-border-light);
+  border-radius: var(--rui-radius-lg);
+  padding: 24px 20px;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--rui-shadow-xs);
+  transition: var(--rui-transition-smooth);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Ruia Crest Pill Strip */
+.feature-card:hover {
+  border-color: var(--rui-gold);
+  transform: translateY(-5px);
+  box-shadow: var(--rui-shadow-hover);
+}
+
+.feature-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--rui-surface-warm);
+  border: 1px solid var(--rui-border-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+  transition: var(--rui-transition-fast);
+}
+
+.feature-card:hover .feature-icon-box {
+  background: var(--rui-gold-light);
+  border-color: var(--rui-gold);
+  transform: scale(1.08);
+}
+
+.feature-card h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--rui-ink-strong) !important;
+  margin: 0 0 8px 0;
+}
+
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--rui-ink-secondary) !important;
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Academic Stats Strip */
 .ruia-stats-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -493,366 +627,278 @@ h3 {
 
 .stat-pill {
   background: #FFFFFF;
-  border: 1px solid var(--ruia-border);
-  border-left: 4px solid var(--ruia-maroon);
-  border-radius: 12px;
+  border: 1px solid var(--rui-border-light);
+  border-radius: var(--rui-radius-md);
   padding: 16px 18px;
-  box-shadow: var(--ruia-shadow-sm);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--rui-shadow-xs);
+  transition: var(--rui-transition-smooth);
 }
 
 .stat-pill:hover {
+  border-color: var(--rui-gold);
   transform: translateY(-2px);
-  box-shadow: var(--ruia-shadow-md);
-  border-left-color: var(--ruia-gold);
+  box-shadow: var(--rui-shadow-sm);
 }
 
 .stat-pill-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.55rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  color: var(--ruia-maroon);
-  line-height: 1.1;
+  color: var(--rui-maroon) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.2;
 }
 
 .stat-pill-label {
-  font-size: 0.8rem;
-  color: var(--ruia-ink-muted);
+  font-size: 0.78rem;
   font-weight: 600;
+  color: var(--rui-ink-secondary) !important;
   margin-top: 4px;
 }
 
-/* Feature Cards Grid */
+/* Section Kickers */
 .section-kicker {
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
+  font-size: 0.76rem;
   font-weight: 800;
-  color: var(--ruia-maroon);
+  color: var(--rui-maroon) !important;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin: 14px 0 16px 0;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
-.section-kicker::after {
+.section-kicker::before {
   content: '';
-  flex: 1;
-  height: 1.5px;
-  background: linear-gradient(90deg, var(--ruia-border-gold), transparent);
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  background-color: var(--rui-gold);
 }
 
-.feature-card {
-  background: var(--ruia-card-bg);
-  border: 1.5px solid var(--ruia-border);
-  border-radius: 14px;
-  padding: 22px 18px;
-  min-height: 220px;
-  box-shadow: var(--ruia-shadow-sm);
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--ruia-maroon), var(--ruia-gold));
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--ruia-shadow-lg);
-  border-color: var(--ruia-gold);
-}
-
-.feature-card:hover::before {
-  opacity: 1;
-}
-
-.feature-icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--ruia-maroon-subtle) 0%, #FFFFFF 100%);
-  border: 1px solid rgba(201, 168, 106, 0.4);
-  color: var(--ruia-maroon);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.45rem;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 10px rgba(107, 15, 26, 0.08);
-}
-
-.feature-card h3 {
-  margin: 0 0 6px 0 !important;
-  font-size: 1.2rem !important;
-  color: var(--ruia-maroon) !important;
-}
-
-.feature-card p {
-  font-size: 0.85rem;
-  line-height: 1.45;
-  color: var(--ruia-ink-muted);
-  margin: 0 0 12px 0;
-  flex: 1;
-}
-
-/* Metric Cards */
+/* Metric Cards in Streamlit */
 div[data-testid="stMetric"] {
   background: #FFFFFF !important;
-  border: 1px solid var(--ruia-border) !important;
-  border-top: 3.5px solid var(--ruia-maroon) !important;
-  border-radius: 12px !important;
+  border: 1px solid var(--rui-border-light) !important;
+  border-radius: var(--rui-radius-md) !important;
   padding: 16px 20px !important;
-  box-shadow: var(--ruia-shadow-sm) !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--rui-shadow-xs) !important;
+  transition: var(--rui-transition-smooth) !important;
 }
 
 div[data-testid="stMetric"]:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--ruia-shadow-md) !important;
-  border-top-color: var(--ruia-gold) !important;
+  border-color: var(--rui-border-medium) !important;
+  box-shadow: var(--rui-shadow-sm) !important;
+  transform: translateY(-2px) !important;
 }
 
 div[data-testid="stMetric"] label {
-  color: var(--ruia-ink-muted) !important;
-  font-size: 0.82rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: var(--rui-ink-secondary) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
 }
 
 div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
-  color: var(--ruia-maroon) !important;
-  font-family: 'Playfair Display', serif !important;
-  font-size: 2.1rem !important;
+  color: var(--rui-ink-strong) !important;
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* ==========================================================================
+   DROPDOWN & BASEWEB POPOVER OVERRIDES (ULTRA VISIBILITY GUARANTEE)
+   ========================================================================== */
+div[data-baseweb="popover"],
+div[data-baseweb="menu"] {
+  background-color: #FFFFFF !important;
+  border: 1.5px solid var(--rui-gold) !important;
+  border-radius: var(--rui-radius-md) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16) !important;
+  z-index: 9999999 !important;
+  overflow: hidden !important;
+}
+
+ul[role="listbox"],
+div[role="listbox"] {
+  background-color: #FFFFFF !important;
+  padding: 6px !important;
+}
+
+li[role="option"],
+div[role="option"] {
+  background-color: #FFFFFF !important;
+  color: var(--rui-ink-strong) !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: var(--rui-transition-fast) !important;
+  margin-bottom: 2px !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+li[role="option"] *,
+div[role="option"] * {
+  color: var(--rui-ink-strong) !important;
+  font-weight: 500 !important;
+}
+
+li[role="option"]:hover,
+div[role="option"]:hover,
+li[role="option"][aria-selected="true"],
+div[role="option"][aria-selected="true"] {
+  background: var(--rui-maroon-subtle) !important;
+  color: var(--rui-maroon) !important;
+  border-left: 4px solid var(--rui-maroon) !important;
+}
+
+li[role="option"]:hover *,
+div[role="option"]:hover *,
+li[role="option"][aria-selected="true"] *,
+div[role="option"][aria-selected="true"] * {
+  color: var(--rui-maroon) !important;
+  font-weight: 700 !important;
+}
+
+/* Select input box */
+div[data-baseweb="select"] {
+  background-color: #FFFFFF !important;
+  border: 1.5px solid var(--rui-border-medium) !important;
+  border-radius: var(--rui-radius-md) !important;
+  color: var(--rui-ink-strong) !important;
+  box-shadow: var(--rui-shadow-xs) !important;
+  transition: var(--rui-transition-fast) !important;
+}
+
+div[data-baseweb="select"] * {
+  color: var(--rui-ink-strong) !important;
+  font-weight: 500 !important;
+}
+
+div[data-baseweb="select"]:hover,
+div[data-baseweb="select"]:focus-within {
+  border-color: var(--rui-maroon) !important;
+  box-shadow: 0 0 0 3px rgba(112, 26, 36, 0.12) !important;
+}
+
+/* Text Inputs, Textareas, Number Inputs */
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea,
+.stNumberInput > div > div > input {
+  background-color: #FFFFFF !important;
+  color: var(--rui-ink-strong) !important;
+  border: 1.5px solid var(--rui-border-medium) !important;
+  border-radius: var(--rui-radius-md) !important;
+  font-size: 0.95rem !important;
+  padding: 10px 14px !important;
+  box-shadow: var(--rui-shadow-xs) !important;
+  transition: var(--rui-transition-fast) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus,
+.stNumberInput > div > div > input:focus {
+  border-color: var(--rui-maroon) !important;
+  box-shadow: 0 0 0 3px rgba(112, 26, 36, 0.12) !important;
+}
+
+/* ==========================================================================
+   STREAMLIT TABS (MODERN HIGH-CONTRAST UNDERLINE)
+   ========================================================================== */
+div[data-testid="stTabs"] {
+  margin-top: 12px;
+}
+
+div[data-testid="stTabs"] button[role="tab"] {
+  background-color: transparent !important;
+  color: var(--rui-ink-secondary) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  padding: 12px 18px !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  transition: var(--rui-transition-fast) !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"] p,
+div[data-testid="stTabs"] button[role="tab"] span {
+  color: var(--rui-ink-secondary) !important;
+  font-weight: 600 !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:hover {
+  color: var(--rui-maroon) !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:hover p,
+div[data-testid="stTabs"] button[role="tab"]:hover span {
+  color: var(--rui-maroon) !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+  color: var(--rui-maroon) !important;
+  border-bottom: 3px solid var(--rui-maroon) !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] p,
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] span {
+  color: var(--rui-maroon) !important;
   font-weight: 800 !important;
 }
 
-/* List Items & Cards */
-.list-item {
+/* ==========================================================================
+   STUDENT ONBOARDING & SIGN-IN CARD
+   ========================================================================== */
+.admission-card {
   background: #FFFFFF;
-  border: 1px solid var(--ruia-border);
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 12px;
-  box-shadow: var(--ruia-shadow-sm);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  transition: all 0.2s ease;
-}
-
-.list-item:hover {
-  border-color: var(--ruia-gold);
-  box-shadow: var(--ruia-shadow-md);
-  transform: translateX(3px);
-}
-
-.list-item-content {
-  flex: 1;
-}
-
-.list-item-title {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--ruia-maroon);
-  margin-bottom: 4px;
-}
-
-.list-item-meta {
-  font-size: 0.82rem;
-  color: var(--ruia-ink-muted);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Countdown Card */
-.countdown-card {
-  background: #FFFFFF;
-  border: 1px solid var(--ruia-border);
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 12px;
-  box-shadow: var(--ruia-shadow-sm);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  transition: all 0.2s ease;
-}
-
-.countdown-card:hover {
-  border-color: var(--ruia-maroon);
-  box-shadow: var(--ruia-shadow-md);
-}
-
-.countdown-badge {
-  background: var(--ruia-maroon-subtle);
-  border: 1px solid rgba(107, 15, 26, 0.2);
-  color: var(--ruia-maroon);
-  padding: 8px 14px;
-  border-radius: 10px;
+  border: 1px solid var(--rui-border-light);
+  border-radius: var(--rui-radius-xl);
+  padding: 32px 36px;
+  box-shadow: var(--rui-shadow-md);
+  margin-bottom: 28px;
   text-align: center;
-  min-width: 80px;
 }
 
-.countdown-badge.urgent {
-  background: #FEE2E2;
-  border-color: #EF4444;
-  color: #B91C1C;
+.admission-card-header h2 {
+  font-size: 1.8rem;
+  color: var(--rui-maroon) !important;
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
-.countdown-badge.warning {
-  background: #FEF3C7;
-  border-color: #F59E0B;
-  color: #B45309;
-}
-
-.countdown-days {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.35rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.countdown-sub {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-top: 2px;
-}
-
-/* Status Badges */
-.status-pill {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.status-pending {
-  background: #FEF3C7;
-  color: #92400E;
-  border: 1px solid #FCD34D;
-}
-
-.status-completed {
-  background: #D1FAE5;
-  color: #065F46;
-  border: 1px solid #6EE7B7;
-}
-
-.status-urgent {
-  background: #FEE2E2;
-  color: #991B1B;
-  border: 1px solid #FCA5A5;
-}
-
-/* Streamlit Native Buttons */
-.stButton > button {
-  background: linear-gradient(135deg, var(--ruia-maroon) 0%, #8E1626 100%) !important;
-  color: #FFFFFF !important;
-  font-weight: 600 !important;
-  font-size: 0.95rem !important;
-  letter-spacing: 0.01em !important;
-  padding: 0.65rem 1.4rem !important;
-  border-radius: 10px !important;
-  border: 1px solid rgba(201, 168, 106, 0.4) !important;
-  box-shadow: 0 4px 12px rgba(107, 15, 26, 0.2) !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.stButton > button:hover {
-  background: linear-gradient(135deg, #42060D 0%, var(--ruia-maroon) 100%) !important;
-  border-color: var(--ruia-gold) !important;
-  box-shadow: 0 6px 20px rgba(107, 15, 26, 0.35) !important;
-  transform: translateY(-2px) !important;
-  color: #FFFFFF !important;
-}
-
-.stButton > button:active {
-  transform: translateY(0) !important;
-}
-
-/* Form Inputs & Textareas */
-.stTextInput input, 
-.stTextArea textarea {
-  background-color: #FFFFFF !important;
-  border: 1.5px solid #D5C9B8 !important;
-  border-radius: 10px !important;
-  color: #18181B !important;
-  font-size: 0.95rem !important;
-  transition: all 0.2s ease !important;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02) !important;
-}
-
-.stTextInput input:focus, 
-.stTextArea textarea:focus {
-  border-color: var(--ruia-gold) !important;
-  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.28) !important;
-}
-
-/* Styled Alert Boxes */
-.stAlert {
-  border-radius: 12px !important;
-  border-left-width: 5px !important;
-}
-
-/* Quote Box / Note */
+/* ==========================================================================
+   QUOTE BOX & FOOTER
+   ========================================================================== */
 .ruia-quote-box {
-  background: linear-gradient(90deg, rgba(201, 168, 106, 0.12) 0%, rgba(255, 255, 255, 0.7) 100%);
-  border-left: 4.5px solid var(--ruia-gold);
-  border-radius: 0 12px 12px 0;
+  background: var(--rui-surface-warm);
+  border-left: 4px solid var(--rui-gold);
+  border-radius: 0 var(--rui-radius-md) var(--rui-radius-md) 0;
   padding: 20px 24px;
-  margin: 28px 0;
-  font-family: 'Playfair Display', serif;
   font-style: italic;
   font-size: 1.05rem;
-  color: #4A3A2C;
-  border-top: 1px solid rgba(201, 168, 106, 0.2);
-  border-bottom: 1px solid rgba(201, 168, 106, 0.2);
+  color: var(--rui-ink) !important;
+  margin: 32px 0 24px 0;
 }
 
 .ruia-quote-author {
-  font-family: 'Plus Jakarta Sans', sans-serif;
   font-style: normal;
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 0.8rem;
-  color: var(--ruia-maroon);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 6px;
+  color: var(--rui-maroon) !important;
+  margin-top: 8px;
 }
 
-/* Footer Section */
 .ruia-footer {
-  margin-top: 50px;
+  margin-top: 48px;
   padding-top: 24px;
-  border-top: 1px solid var(--ruia-border);
+  border-top: 1px solid var(--rui-border-light);
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  color: var(--rui-ink-muted) !important;
   font-size: 0.82rem;
-  color: var(--ruia-ink-muted);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .ruia-footer-creds {
@@ -860,43 +906,35 @@ div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
   align-items: center;
   gap: 8px;
   font-weight: 600;
-  color: var(--ruia-maroon);
 }
 
-/* Onboarding Student Admission Card */
-.admission-card {
-  background: #FFFFFF;
-  border: 1px solid var(--ruia-border);
-  border-top: 6px solid var(--ruia-maroon);
-  border-radius: 16px;
-  padding: 36px 32px;
-  max-width: 680px;
-  margin: 10px auto 30px auto;
-  box-shadow: var(--ruia-shadow-lg);
-  position: relative;
+/* Expanders */
+div[data-testid="stExpander"] {
+  background: #FFFFFF !important;
+  border: 1px solid var(--rui-border-light) !important;
+  border-radius: var(--rui-radius-md) !important;
+  box-shadow: var(--rui-shadow-xs) !important;
 }
 
-.admission-card-header {
-  text-align: center;
-  margin-bottom: 24px;
+div[data-testid="stExpander"] summary {
+  color: var(--rui-ink-strong) !important;
+  font-weight: 700 !important;
 }
 
-.admission-logo-img {
-  max-width: 200px;
-  margin: 0 auto 12px auto;
-  display: block;
-}
-
+/* Responsive adjustments */
 @media (max-width: 900px) {
-  .hero {
+  .rui-top-navbar {
     flex-direction: column;
-    padding: 32px 24px;
-    text-align: center;
-  }
-  .hero-logo-box {
-    margin-top: 16px;
+    align-items: stretch;
+    gap: 12px;
   }
   .ruia-stats-strip {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .hero {
+    padding: 28px 24px;
+  }
+  .hero h1 {
+    font-size: 2.1rem !important;
   }
 }

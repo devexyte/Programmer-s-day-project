@@ -8,10 +8,10 @@ def render(student):
 
     st.markdown("""
     <div style="margin-bottom: 20px;">
-        <div class="section-kicker">ACTIVE RECALL & RETENTION WORKSHOP</div>
+        <div class="section-kicker">RAMNARAIN RUIA AUTONOMOUS COLLEGE · RUI QUIZ STUDIO</div>
         <h1 style="margin: 0 0 6px 0;">Quiz Studio & Practice Question Generator</h1>
-        <p style="color: #64748B; font-size: 1.05rem; margin: 0;">
-            Transform syllabus lecture topics into rigorous practice problems, multiple-choice questions, and mastery flashcards.
+        <p style="color: #475569; font-size: 1.05rem; margin: 0;">
+            Let <b>RUI</b> transform syllabus lecture topics into rigorous practice problems, multiple-choice questions, and mastery flashcards.
         </p>
     </div>
     """, unsafe_allow_html=True)
