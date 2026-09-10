@@ -3,8 +3,7 @@ from pathlib import Path
 import streamlit as st
 
 def _navigate(target):
-    st.session_state["nav_selection"] = target
-    st.session_state["top_nav_pills"] = target
+    st.session_state["nav_goto"] = target
     st.rerun()
 
 def render():

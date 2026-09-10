@@ -89,6 +89,7 @@ Reverse-engineered 7-day study timetables tailored by <b>RUI</b> to official Rui
             subjects = st.text_area(
                 "Coursework Modules & Assessment Units",
                 value=auto_subjects,
+                key=f"subj_area_{selected_dept}",
                 height=160,
                 help="Syllabus units fetched from official Ruia College autonomous curriculum"
             )

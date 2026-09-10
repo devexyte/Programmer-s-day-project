@@ -142,13 +142,8 @@
   gap: 16px !important;
   position: relative !important;
   z-index: 100 !important;
-  animation: ruiSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-@keyframes ruiSlideDown {
-  from { opacity: 0; transform: translateY(-14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* Brand Box in Red Navbar */
 .rui-brand-box {
@@ -268,73 +263,72 @@
 /* ==========================================================================
    MENU BAR / PILLS DOCK VISIBILITY FIX (CRITICAL: ZERO BLACK-ON-BLACK TEXT)
    ========================================================================== */
+/* ==========================================================================
+   TOP HORIZONTAL NAVIGATION STRIP (CRISP WHITE BOX + HIGH-CONTRAST BUTTONS)
+   ========================================================================== */
 div[data-testid="stPills"],
 div[data-testid="stSegmentedControl"] {
-  background: linear-gradient(135deg, #38050B 0%, #520D15 100%) !important;
-  border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
   border-radius: var(--rui-radius-pill) !important;
   padding: 6px 10px !important;
   gap: 8px !important;
   display: flex !important;
   flex-wrap: wrap !important;
   align-items: center !important;
-  box-shadow: 0 4px 14px rgba(56, 5, 11, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
 }
 
-/* All Pill Buttons Inside Menu Dock */
 div[data-testid="stPills"] button,
 div[data-testid="stSegmentedControl"] button,
 button[data-testid="stBaseButton-pills"],
 button[data-testid="stPill"] {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: var(--rui-radius-pill) !important;
   padding: 8px 16px !important;
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
   cursor: pointer !important;
   transition: var(--rui-transition-smooth) !important;
   white-space: nowrap !important;
 }
 
-/* CRITICAL: Force ALL children of pill buttons to be bright white */
 div[data-testid="stPills"] button *,
 div[data-testid="stSegmentedControl"] button *,
 button[data-testid="stBaseButton-pills"] *,
 button[data-testid="stPill"] * {
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
-  font-weight: 600 !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 700 !important;
   font-size: 0.9rem !important;
 }
 
-/* Hover State on Pill */
 div[data-testid="stPills"] button:hover,
 div[data-testid="stSegmentedControl"] button:hover,
 button[data-testid="stBaseButton-pills"]:hover,
 button[data-testid="stPill"]:hover {
-  background: rgba(255, 255, 255, 0.25) !important;
-  border-color: #F3E5C8 !important;
+  background: #FAF8F5 !important;
+  border-color: #701A24 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(112, 26, 36, 0.12) !important;
 }
 
 div[data-testid="stPills"] button:hover *,
 div[data-testid="stSegmentedControl"] button:hover *,
 button[data-testid="stBaseButton-pills"]:hover *,
 button[data-testid="stPill"]:hover * {
-  color: #FFF2D6 !important;
-  -webkit-text-fill-color: #FFF2D6 !important;
+  color: #701A24 !important;
+  -webkit-text-fill-color: #701A24 !important;
 }
 
-/* Active / Selected Pill: Vivid Imperial Red Pill with Crisp Pure White Text */
 div[data-testid="stPills"] button[aria-selected="true"],
 div[data-testid="stSegmentedControl"] button[aria-selected="true"],
 div[data-testid="stPills"] button[data-selected="true"],
 div[data-testid="stSegmentedControl"] button[data-selected="true"] {
   background: linear-gradient(135deg, #DC2626 0%, #991B1B 50%, #701A24 100%) !important;
   border: 1.5px solid #F3E5C8 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 12px rgba(220, 38, 38, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(112, 26, 36, 0.35) !important;
   transform: translateY(-2px) !important;
 }
 
@@ -346,6 +340,26 @@ div[data-testid="stSegmentedControl"] button[data-selected="true"] * {
   -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 800 !important;
 }
+
+/* Specific styling for column nav buttons */
+.top-nav-container {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+div[data-testid="column"] button {
+  height: 48px !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
 
 
 /* ==========================================================================

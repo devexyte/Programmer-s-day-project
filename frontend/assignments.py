@@ -62,9 +62,8 @@ Track collegiate coursework, submissions, and let <b>RUI</b> automatically synth
 
                     if auto_remind:
                         with st.spinner("Synthesizing strategic milestone checkpoints..."):
-                            reminders = create_reminders(student['student_id'], assignment_id, title.strip(), str(due_date))
-                            st.markdown("#### 🔔 Generated Milestone Roadmap")
-                            st.markdown(reminders, unsafe_allow_html=True)
+                            create_reminders(student['student_id'], assignment_id, title.strip(), str(due_date))
+                    st.toast(f"Assignment '{title}' saved with AI preparation checkpoints! 🎉")
                     st.rerun()
                 except Exception as exc:
                     st.error(f"Failed to record assignment: {exc}")

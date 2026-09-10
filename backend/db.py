@@ -112,7 +112,12 @@ def get_or_create_course(course_name, course_code=None, year=1):
     )
 
 
+_seeded = False
+
 def seed_default_data():
+    global _seeded
+    if _seeded:
+        return
     try:
         with connection() as conn:
             cursor = conn.cursor(dictionary=True)
@@ -148,6 +153,7 @@ def seed_default_data():
                     "INSERT IGNORE INTO students (name, email, program, year) VALUES (%s, %s, %s, %s)",
                     demo_students
                 )
+            _seeded = True
     except Exception:
         pass
 

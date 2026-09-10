@@ -22,11 +22,14 @@ css_path = Path("assets/styles.css")
 if css_path.exists():
     st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
 
-# Pre-seed default Ruia courses & students in MySQL
-try:
-    seed_default_data()
-except Exception:
-    pass
+# Pre-seed default Ruia courses & students in MySQL (cached per session)
+if "db_seeded" not in st.session_state:
+    try:
+        seed_default_data()
+        st.session_state["db_seeded"] = True
+    except Exception:
+        pass
+
 
 # Initialize session states
 if "student" not in st.session_state:
@@ -92,30 +95,43 @@ navbar_html = f"""<div class="rui-top-navbar">
 
 st.html(navbar_html)
 
+def navigate_to(target):
+    st.session_state["nav_selection"] = target
+    st.rerun()
+
+if "nav_selection" not in st.session_state:
+    st.session_state["nav_selection"] = "🏛️ Welcome"
+
+# Extract current page identifier
+raw_nav = st.session_state["nav_selection"]
+page = raw_nav.split(" ", 1)[1] if " " in raw_nav else raw_nav
+
 # ==============================================================================
-# TOP HORIZONTAL MENU BAR / PILLS DOCK (HIGH-CONTRAST GOLD & WHITE)
+# UNIFIED HORIZONTAL TOP NAVIGATION MENU (ZERO BLACK BOX, HIGH-CONTRAST)
 # ==============================================================================
-if "top_nav_pills" not in st.session_state:
-    st.session_state["top_nav_pills"] = st.session_state["nav_selection"]
-elif st.session_state.get("nav_selection") and st.session_state["top_nav_pills"] != st.session_state["nav_selection"]:
-    st.session_state["top_nav_pills"] = st.session_state["nav_selection"]
+nav_items = [
+    ("🏛️ Welcome", "Welcome"),
+    ("📊 Dashboard", "Academic Dashboard"),
+    ("📅 Study Planner", "Study Planner"),
+    ("📝 Assignments", "Assignment Desk"),
+    ("📑 Resume Lab", "Resume Lab"),
+    ("🎯 Quiz Studio", "Quiz Studio"),
+    ("⏱️ Exam Map", "Exam Map"),
+]
 
-def _on_nav_dock_change():
-    st.session_state["nav_selection"] = st.session_state.top_nav_pills
+nav_cols = st.columns(7, gap="small")
+for col, (label, target_page) in zip(nav_cols, nav_items):
+    is_active = (page == target_page)
+    with col:
+        if st.button(
+            label,
+            key=f"topnav_{target_page.replace(' ', '_')}",
+            type="primary" if is_active else "secondary",
+            use_container_width=True
+        ):
+            if page != target_page:
+                navigate_to(f"📌 {target_page}" if target_page != "Welcome" else "🏛️ Welcome")
 
-selected_pill = st.pills(
-    "Main Navigation Menu",
-    nav_options,
-    selection_mode="single",
-    key="top_nav_pills",
-    on_change=_on_nav_dock_change,
-    label_visibility="collapsed"
-)
-
-if selected_pill:
-    st.session_state["nav_selection"] = selected_pill
-
-page = st.session_state["nav_selection"].split(" ", 1)[1]
 
 # Subtle Context & Account Bar
 c_bar_l, c_bar_r = st.columns([3.8, 1.2], vertical_alignment="center")
@@ -130,14 +146,11 @@ with c_bar_r:
     if st.session_state.student:
         if st.button("↻ Switch Student", key="top_switch_student_btn", use_container_width=True):
             st.session_state.student = None
-            st.session_state["nav_selection"] = "🏛️ Welcome"
-            st.session_state["top_nav_pills"] = "🏛️ Welcome"
-            st.rerun()
+            navigate_to("🏛️ Welcome")
     else:
         if st.button("🔑 Student Sign-In", key="top_btn_signin_fast", use_container_width=True):
-            st.session_state["nav_selection"] = "📊 Academic Dashboard"
-            st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
-            st.rerun()
+            navigate_to("📊 Academic Dashboard")
+
 
 # Optional AI & System Configuration Panel
 with st.expander("⚙️ RUI AI Companion Configuration & Gemini Key", expanded=False):
@@ -236,10 +249,8 @@ Connect your academic profile to unlock personalized AI planning, assignment dea
                     selected_label = st.selectbox("Select Student Profile", list(options_map.keys()))
                     if st.button("Log In with Selected Profile", type="primary", use_container_width=True):
                         st.session_state.student = options_map[selected_label]
-                        st.session_state["nav_selection"] = "📊 Academic Dashboard"
-                        st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
                         st.toast(f"Welcome back, {st.session_state.student['name']}!")
-                        st.rerun()
+                        navigate_to("📊 Academic Dashboard")
                 else:
                     st.info("No registered students found in database. Please register below or use a quick demo profile.")
             except Exception as exc:
@@ -276,10 +287,8 @@ Connect your academic profile to unlock personalized AI planning, assignment dea
                         try:
                             saved_student = get_or_create_student(new_name.strip(), new_email.strip(), new_program, new_year)
                             st.session_state.student = saved_student
-                            st.session_state["nav_selection"] = "📊 Academic Dashboard"
-                            st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
                             st.success(f"Registered successfully as {new_name}!")
-                            st.rerun()
+                            navigate_to("📊 Academic Dashboard")
                         except Exception as exc:
                             st.error(f"Failed to record student: {exc}")
 
@@ -289,15 +298,12 @@ Connect your academic profile to unlock personalized AI planning, assignment dea
             with d1:
                 if st.button("👤 Aarav Sharma (TY B.Sc. CS)", use_container_width=True):
                     st.session_state.student = get_or_create_student("Aarav Sharma", "aarav.sharma@ruiacollege.edu", "B.Sc. Computer Science (Autonomous)", 3)
-                    st.session_state["nav_selection"] = "📊 Academic Dashboard"
-                    st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
-                    st.rerun()
+                    navigate_to("📊 Academic Dashboard")
             with d2:
                 if st.button("👤 Ananya Deshmukh (SY B.A. Economics)", use_container_width=True):
                     st.session_state.student = get_or_create_student("Ananya Deshmukh", "ananya.deshmukh@ruiacollege.edu", "B.A. Economics (Autonomous)", 2)
-                    st.session_state["nav_selection"] = "📊 Academic Dashboard"
-                    st.session_state["top_nav_pills"] = "📊 Academic Dashboard"
-                    st.rerun()
+                    navigate_to("📊 Academic Dashboard")
+
 
 elif page == "Welcome":
     home.render()
