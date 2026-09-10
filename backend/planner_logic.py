@@ -1,11 +1,16 @@
-from backend.ai import generate
-from backend.db import execute
+from backend.ai import generate_study_plan
+from backend.db import execute, fetch_all
 
-def create_plan(student_id, subjects, hours, exam_context):
-    prompt = f'''You are Ruia AI, an encouraging academic planner for Ruia College, Mumbai. Create a precise 7-day study plan in Markdown.
-Subjects and difficulty: {subjects}\nAvailable study hours per day: {hours}\nUpcoming exams: {exam_context or 'None supplied'}.
-Balance difficult courses, active recall, revision and breaks. Use a day-by-day table, then give three concise study habits.'''
-    plan = generate(prompt)
-    execute("INSERT INTO study_plans (student_id,generated_plan) VALUES (%s,%s)", (student_id, plan))
+
+def create_plan(student_id, subjects, hours, exam_context=""):
+    plan = generate_study_plan(subjects, hours, exam_context)
+    execute("INSERT INTO study_plans (student_id, generated_plan) VALUES (%s, %s)", (student_id, plan))
     return plan
 
+
+def get_latest_plan(student_id):
+    plans = fetch_all(
+        "SELECT * FROM study_plans WHERE student_id = %s ORDER BY created_at DESC LIMIT 1",
+        (student_id,)
+    )
+    return plans[0] if plans else None

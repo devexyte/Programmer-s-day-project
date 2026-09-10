@@ -1,6 +1,5 @@
-from backend.ai import generate
+from backend.ai import generate_resume_review
 
-def review_resume(resume):
-    prompt = f'''You are a career adviser for Ruia College students. Review this resume for grammar, clarity, structure and impact. Return these sections: Strengths, Priority improvements, and Polished resume. Preserve facts; never invent achievements.\n\nRESUME:\n{resume}'''
-    return generate(prompt)
 
+def review_resume(resume_text, target_role="General Academic & Corporate Placement"):
+    return generate_resume_review(resume_text, target_role)
