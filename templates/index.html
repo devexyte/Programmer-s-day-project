@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUI | Ruia Student Buddy - Ramnarain Ruia Autonomous College</title>
+  <meta name="description" content="Official autonomous academic co-pilot and companion for scholars of Ramnarain Ruia Autonomous College, Matunga, Mumbai.">
+  
+  <!-- College Favicon -->
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+
+  <!-- Typography: Plus Jakarta Sans, Outfit, Cinzel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Core Ruia Design System -->
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP RED BRAND NAVBAR
+       ======================================================================== -->
+  <header class="top-navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <img src="/assets/logo.png" alt="Ramnarain Ruia Autonomous College Emblem" class="college-crest">
+        <div class="brand-text-block">
+          <div class="brand-title-row">
+            <span class="brand-name">RUI</span>
+            <span class="brand-badge">AUTONOMOUS</span>
+          </div>
+          <span class="college-subtitle">Ruia Student Buddy • Ramnarain Ruia Autonomous College, Mumbai</span>
+        </div>
+      </div>
+
+      <div class="navbar-actions">
+        <!-- Active Scholar Profile Pill -->
+        <div class="scholar-pill" onclick="openModal('scholarModal')" title="Switch Active Scholar Profile">
+          <div class="scholar-avatar" id="navbarScholarAvatar">AS</div>
+          <div class="scholar-meta">
+            <span class="scholar-name" id="navbarScholarName">Aarav Sharma</span>
+            <span class="scholar-dept" id="navbarScholarDept">Computer Science • TY BSc</span>
+          </div>
+          <span style="color: #F8FAFC; font-size: 0.8rem; margin-left: 4px;">▼</span>
+        </div>
+
+        <!-- AI Engine Status Indicator -->
+        <div class="ai-status-pill" onclick="openModal('apiKeyModal')" title="Gemini AI Engine Configuration">
+          <span class="status-dot" id="aiStatusDot"></span>
+          <span id="aiStatusText">Gemini AI Ready</span>
+        </div>
+
+        <!-- Config Key Button -->
+        <button class="nav-icon-btn" onclick="openModal('apiKeyModal')" title="Configure Gemini API Key">
+          🔑
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HORIZONTAL NAVIGATION DOCK (7 Modules)
+       ======================================================================== -->
+  <nav class="navigation-dock">
+    <div class="dock-container">
+      <button class="dock-tab active" data-tab="welcome">
+        <span class="tab-icon">🏛️</span>
+        <span>Welcome</span>
+      </button>
+      <button class="dock-tab" data-tab="dashboard">
+        <span class="tab-icon">📊</span>
+        <span>Academic Dashboard</span>
+      </button>
+      <button class="dock-tab" data-tab="planner">
+        <span class="tab-icon">📅</span>
+        <span>Study Planner</span>
+      </button>
+      <button class="dock-tab" data-tab="assignments">
+        <span class="tab-icon">📝</span>
+        <span>Assignment Desk</span>
+      </button>
+      <button class="dock-tab" data-tab="resume">
+        <span class="tab-icon">📄</span>
+        <span>Resume Lab</span>
+      </button>
+      <button class="dock-tab" data-tab="quiz">
+        <span class="tab-icon">⚡</span>
+        <span>Quiz Studio</span>
+      </button>
+      <button class="dock-tab" data-tab="exams">
+        <span class="tab-icon">🗺️</span>
+        <span>Exam Map</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       MAIN APP WORKSPACE
+       ======================================================================== -->
+  <main class="main-content">
+
+    <!-- TAB 1: WELCOME & HERO -->
+    <section class="tab-pane active" id="tab-welcome">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div class="hero-pretitle">
+            <span>⚜️</span> Ramnarain Ruia Autonomous College • Estd. 1937
+          </div>
+          <h1 class="hero-title">
+            Welcome to <span>RUI</span>, Scholar.
+          </h1>
+          <p class="hero-description">
+            Your dedicated collegiate intelligence co-pilot. Seamlessly orchestrate your 7-day study curricula, track assignment deadlines, diagnose ATS-ready career resumes, and master autonomous exam syllabi with Google Gemini AI.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-gold btn-lg" onclick="showTab('dashboard')">
+              <span>Enter Academic Dashboard</span> ➔
+            </button>
+            <button class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.12); color: #FFFFFF !important; border-color: rgba(255,255,255,0.4);" onclick="showTab('planner')">
+              <span>Create 7-Day Study Plan</span>
+            </button>
+          </div>
+
+          <!-- Quick Scholar Switcher -->
+          <div class="scholar-quick-select">
+            <span class="scholar-quick-label">Active Scholar Preset:</span>
+            <button class="quick-scholar-chip active" data-name="Aarav Sharma" onclick="selectScholar(1, 'Aarav Sharma', 'Computer Science', 'TY BSc')">
+              👨‍🎓 Aarav Sharma (CS)
+            </button>
+            <button class="quick-scholar-chip" data-name="Ananya Deshmukh" onclick="selectScholar(2, 'Ananya Deshmukh', 'Biotechnology', 'SY BSc')">
+              👩‍🔬 Ananya Deshmukh (Biotech)
+            </button>
+            <button class="quick-scholar-chip" data-name="Tanvi Kulkarni" onclick="selectScholar(3, 'Tanvi Kulkarni', 'Chemistry', 'MSc Part I')">
+              🧪 Tanvi Kulkarni (Chemistry)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Institutional Honors Strip -->
+      <div class="hero-stats-strip">
+        <div class="hero-stat-card">
+          <div class="stat-icon-wrap">🏛️</div>
+          <div class="stat-info-wrap">
+            <span class="stat-number">1937</span>
+            <span class="stat-label">Year of Establishment</span>
+          </div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="stat-icon-wrap">⭐</div>
+          <div class="stat-info-wrap">
+            <span class="stat-number">A+ Grade</span>
+            <span class="stat-label">NAAC CGPA 3.70</span>
+          </div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="stat-icon-wrap">🎓</div>
+          <div class="stat-info-wrap">
+            <span class="stat-number">Autonomous</span>
+            <span class="stat-label">Academic Status</span>
+          </div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="stat-icon-wrap">📚</div>
+          <div class="stat-info-wrap">
+            <span class="stat-number">7,500+</span>
+            <span class="stat-label">Ruia Scholars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Academic Pillars -->
+      <div class="pillars-heading">
+        <h2>Autonomous Academic Architecture</h2>
+        <p>Five synchronized intelligence modules built specifically for Ruia curriculum excellence.</p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card" onclick="showTab('planner')">
+          <div class="pillar-icon">📅</div>
+          <div class="pillar-title">Study Planner</div>
+          <div class="pillar-desc">Generate AI-optimized 7-day revision schedules calibrated against your exam dates and autonomous coursework load.</div>
+          <div class="pillar-cta">Open Planner ➔</div>
+        </div>
+
+        <div class="pillar-card" onclick="showTab('assignments')">
+          <div class="pillar-icon">📝</div>
+          <div class="pillar-title">Assignment Desk</div>
+          <div class="pillar-desc">Track submissions, monitor urgency tiers, and receive autonomous deadline reminders before grading cut-offs.</div>
+          <div class="pillar-cta">View Desk ➔</div>
+        </div>
+
+        <div class="pillar-card" onclick="showTab('resume')">
+          <div class="pillar-icon">📄</div>
+          <div class="pillar-title">Resume Lab</div>
+          <div class="pillar-desc">Benchmark your academic CV against ATS recruitment parsers with tailored feedback and STAR impact phrasing.</div>
+          <div class="pillar-cta">Launch Lab ➔</div>
+        </div>
+
+        <div class="pillar-card" onclick="showTab('quiz')">
+          <div class="pillar-icon">⚡</div>
+          <div class="pillar-title">Quiz Studio</div>
+          <div class="pillar-desc">Test subject mastery with AI-generated multi-choice questions covering unit concepts and immediate explanations.</div>
+          <div class="pillar-cta">Take Quiz ➔</div>
+        </div>
+
+        <div class="pillar-card" onclick="showTab('exams')">
+          <div class="pillar-icon">🗺️</div>
+          <div class="pillar-title">Exam Map</div>
+          <div class="pillar-desc">Monitor live countdown timers to autonomous semester finals and generate structured spaced revision roadmaps.</div>
+          <div class="pillar-cta">Explore Map ➔</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: ACADEMIC DASHBOARD -->
+    <section class="tab-pane" id="tab-dashboard">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h2 class="card-title">📊 Academic Performance Cockpit</h2>
+          <p class="card-subtitle">Real-time overview of coursework, submissions, and autonomous milestones.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="loadDashboard()">🔄 Refresh Telemetry</button>
+      </div>
+
+      <!-- Key Metrics Row -->
+      <div class="metrics-row" id="dashboardMetricsContainer">
+        <div class="metric-box">
+          <span class="metric-title">Cumulative GPA</span>
+          <span class="metric-val" id="metricGPA">3.85</span>
+          <span class="metric-sub">Autonomous Scale / 4.0</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-title">Total Assignments</span>
+          <span class="metric-val" id="metricTotalAssign">--</span>
+          <span class="metric-sub" style="color: #64748B;">Registered Coursework</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-title">Pending Submissions</span>
+          <span class="metric-val" id="metricPendingAssign" style="color: #B45309;">--</span>
+          <span class="metric-sub" style="color: #B45309;">Action Required</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-title">Upcoming Exams</span>
+          <span class="metric-val" id="metricUpcomingExams" style="color: #800000;">--</span>
+          <span class="metric-sub" style="color: #800000;">Milestones Scheduled</span>
+        </div>
+      </div>
+
+      <!-- Dashboard Split Grid -->
+      <div class="dashboard-grid">
+        <!-- Urgent Submissions List -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">⏳ Urgent Coursework Deadlines</h3>
+            <button class="btn btn-sm btn-primary" onclick="showTab('assignments')">Go to Desk</button>
+          </div>
+          <div class="activity-list" id="dashboardUrgentList">
+            <p style="color: #64748B; padding: 10px;">Loading assignments...</p>
+          </div>
+        </div>
+
+        <!-- Upcoming Exam Milestones -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🎯 Examination Schedule</h3>
+            <button class="btn btn-sm btn-outline" onclick="showTab('exams')">Exam Map</button>
+          </div>
+          <div class="activity-list" id="dashboardExamList">
+            <p style="color: #64748B; padding: 10px;">Loading exams...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: STUDY PLANNER -->
+    <section class="tab-pane" id="tab-planner">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h2 class="card-title">📅 AI-Powered 7-Day Study Curriculum</h2>
+          <p class="card-subtitle">Synthesize a balanced weekly study schedule tailored to your pace and target exams.</p>
+        </div>
+      </div>
+
+      <div class="planner-layout">
+        <!-- Planner Parameters Form -->
+        <div class="card">
+          <h3 class="card-title" style="margin-bottom: 16px;">Curriculum Parameters</h3>
+          <form id="plannerForm">
+            <div class="form-group">
+              <label for="planHours">Daily Dedicated Study Hours</label>
+              <input type="number" id="planHours" min="1" max="12" step="0.5" value="3.5" required>
+            </div>
+
+            <div class="form-group">
+              <label for="planExamDate">Target Examination Date</label>
+              <input type="date" id="planExamDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="planDifficulty">Target Intensity Level</label>
+              <select id="planDifficulty">
+                <option value="Balanced">Balanced (Standard Pace)</option>
+                <option value="Intense">Intense (High Coverage)</option>
+                <option value="Revision Only">Spaced Revision Only</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="planFocus">Specific Focus Topics or Units</label>
+              <textarea id="planFocus" rows="4" placeholder="e.g., Data Structures: Dynamic Programming, Graph Theory, Unit 3 Internal test..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="generatePlanBtn" style="width: 100%;">
+              <span>Generate 7-Day Schedule</span> ➔
+            </button>
+          </form>
+        </div>
+
+        <!-- Generated Markdown Schedule View -->
+        <div class="schedule-display">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #E2E8F0;">
+            <h3 style="font-size: 1.15rem; color: #0F172A; font-weight: 700;">Generated Revision Plan</h3>
+            <span class="brand-badge" style="background: #FEF2F2; color: #800000 !important; border: 1px solid #800000;">Gemini 2.5 Intelligence</span>
+          </div>
+          <div id="planMarkdownDisplay">
+            <div class="empty-state">
+              <div class="empty-icon">📅</div>
+              <h4 class="empty-title">No Study Plan Active</h4>
+              <p class="empty-desc">Configure your study hours and target exam date on the left, then click "Generate 7-Day Schedule" to construct your personalized timetable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: ASSIGNMENT DESK -->
+    <section class="tab-pane" id="tab-assignments">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h2 class="card-title">📝 Assignment Desk & Submissions Registry</h2>
+          <p class="card-subtitle">Manage coursework deliverables, track due dates, and monitor submission compliance.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('newAssignmentModal')">
+          <span>+ Create Assignment</span>
+        </button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2.5fr 1fr; gap: 24px;">
+        <!-- Assignments Table -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="academic-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Course</th>
+                  <th>Due Date</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="assignmentsTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 24px; color: #64748B;">Loading assignments...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Automated Deadlines & Reminders -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 1.05rem;">🔔 Automated Reminders</h3>
+          </div>
+          <div class="activity-list" id="remindersWidgetBody">
+            <p style="color: #64748B; font-size: 0.88rem;">Checking deadlines...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: RESUME LAB -->
+    <section class="tab-pane" id="tab-resume">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h2 class="card-title">📄 Ruia Career & Resume Lab</h2>
+          <p class="card-subtitle">AI-driven ATS diagnostic engine calibrated for corporate placements and research internships.</p>
+        </div>
+      </div>
+
+      <div class="resume-grid">
+        <!-- Left: Input Form -->
+        <div class="card">
+          <h3 class="card-title" style="margin-bottom: 16px;">Candidate Profile & Target</h3>
+          <form id="resumeForm">
+            <div class="form-group">
+              <label for="resumeTargetRole">Target Career Role</label>
+              <input type="text" id="resumeTargetRole" placeholder="e.g. Full Stack Engineer, Data Scientist, Bioinformatics Analyst" value="Software Engineer" required>
+            </div>
+
+            <div class="form-group">
+              <label for="resumeTargetCompany">Target Organization / Sector</label>
+              <input type="text" id="resumeTargetCompany" placeholder="e.g. Morgan Stanley, Tata Consultancy Services, Academic Research" value="Top Tech Enterprise">
+            </div>
+
+            <div class="form-group">
+              <label for="resumeRawText">Resume Text / Draft Content</label>
+              <textarea id="resumeRawText" rows="12" placeholder="Paste your current resume content, education, skills, projects, and achievements here..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="analyzeResumeBtn" style="width: 100%;">
+              <span>Analyze & Optimize Resume</span> ➔
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Diagnostic Output -->
+        <div class="card" style="min-height: 500px;">
+          <h3 class="card-title" style="margin-bottom: 16px;">ATS Diagnostic & Enhanced Output</h3>
+          <div id="resumeAnalysisOutput">
+            <div class="empty-state">
+              <div class="empty-icon">📄</div>
+              <h4 class="empty-title">Ready for ATS Evaluation</h4>
+              <p class="empty-desc">Input your resume text and target role on the left to receive an instant ATS score, keyword breakdown, and tailored collegiate revision.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: QUIZ STUDIO -->
+    <section class="tab-pane" id="tab-quiz">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h2 class="card-title">⚡ Autonomous Quiz & Assessment Studio</h2>
+          <p class="card-subtitle">Generate interactive self-assessments to test topic retention and exam preparedness.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 28px;">
+        <form id="quizForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 180px; gap: 16px; align-items: flex-end;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="quizCourse">Subject / Discipline</label>
+            <select id="quizCourse" required>
+              <option value="">-- Choose Subject --</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="quizTopic">Target Concept / Topic</label>
+            <input type="text" id="quizTopic" placeholder="e.g. Recursion, Photosynthesis, Organic Synthesis" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="quizCount">Questions</label>
+            <select id="quizCount">
+              <option value="3">3 Questions</option>
+              <option value="5" selected>5 Questions</option>
+              <option value="10">10 Questions</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="quizDifficulty">Difficulty</label>
+            <select id="quizDifficulty">
+              <option value="Beginner">Foundational</option>
+              <option value="Intermediate" selected>Intermediate</option>
+              <option value="Advanced">Advanced (Autonomous)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="generateQuizBtn" style="height: 44px;">
+            <span>Generate Quiz</span> ➔
+          </button>
+        </form>
+      </div>
+
+      <!-- Quiz Questions Render Area -->
+      <div id="quizQuestionsContainer">
+        <div class="empty-state">
+          <div class="empty-icon">⚡</div>
+          <h4 class="empty-title">No Active Assessment</h4>
+          <p class="empty-desc">Choose a subject and enter a concept above to generate custom multi-choice questions with instant scoring.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: EXAM MAP -->
+    <section class="tab-pane" id="tab-exams">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h2 class="card-title">🗺️ Autonomous Examination Map & Roadmaps</h2>
+          <p class="card-subtitle">Live countdown timers, milestone tracking, and AI-spaced revision planning.</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-outline" onclick="generateRevisionPlan()">🤖 Spaced Revision Plan</button>
+          <button class="btn btn-primary" onclick="openModal('newExamModal')">+ Add Exam Target</button>
+        </div>
+      </div>
+
+      <!-- Live Exam Countdowns Grid -->
+      <div class="countdown-grid" id="examCountdownGrid">
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <p class="empty-desc">Loading examination milestones...</p>
+        </div>
+      </div>
+
+      <!-- AI Spaced Revision Plan Output -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">📖 Comprehensive Spaced Revision Roadmap</h3>
+        </div>
+        <div id="revisionScheduleOutput">
+          <p style="color: #64748B; padding: 10px;">Click "Spaced Revision Plan" above to compile a structured timeline for all pending exam targets.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       COLLEGIATE MASTER FOOTER
+       ======================================================================== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-crest-row">
+          <img src="/assets/logo.png" alt="Ruia Emblem" class="footer-crest">
+          <span class="footer-title">RUI</span>
+        </div>
+        <p class="footer-desc">
+          Official autonomous academic co-pilot engineered for Ramnarain Ruia Autonomous College scholars. Designed to elevate daily productivity, career preparedness, and autonomous curriculum success.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Collegiate Modules</h4>
+        <ul class="footer-links">
+          <li><a href="javascript:showTab('welcome')">Welcome & Overview</a></li>
+          <li><a href="javascript:showTab('dashboard')">Academic Dashboard</a></li>
+          <li><a href="javascript:showTab('planner')">7-Day Study Planner</a></li>
+          <li><a href="javascript:showTab('assignments')">Assignment Desk</a></li>
+          <li><a href="javascript:showTab('resume')">Career & Resume Lab</a></li>
+          <li><a href="javascript:showTab('quiz')">Quiz Studio</a></li>
+          <li><a href="javascript:showTab('exams')">Exam Countdown Map</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Campus & Contact</h4>
+        <div class="footer-contact-item">
+          <span>📍</span>
+          <span>L.N. Road, Matunga East, Mumbai - 400 019, Maharashtra, India</span>
+        </div>
+        <div class="footer-contact-item">
+          <span>📞</span>
+          <span>+91 22 2414 3098 / 2414 3119</span>
+        </div>
+        <div class="footer-contact-item">
+          <span>✉️</span>
+          <span>principal@ruiacollege.edu</span>
+        </div>
+        <div class="footer-contact-item">
+          <span>🌐</span>
+          <span>www.ruiacollege.edu</span>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>Accreditations</h4>
+        <p class="footer-desc" style="margin-bottom: 12px;">
+          Autonomous Institution Affiliated with the University of Mumbai.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge-naac">NAAC A+</span>
+            <span style="font-size: 0.82rem; color: #FFFFFF;">3.70 CGPA (Cycle 4)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge-naac" style="background: #3B82F6; color: #FFFFFF !important;">DBT STAR</span>
+            <span style="font-size: 0.82rem; color: #FFFFFF;">Star College Scheme Status</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge-naac" style="background: #10B981; color: #FFFFFF !important;">UGC-CPE</span>
+            <span style="font-size: 0.82rem; color: #FFFFFF;">College with Potential for Excellence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 1937 - 2026 Ramnarain Ruia Autonomous College. All Rights Reserved.
+      </div>
+      <div class="footer-accreditation">
+        <span>RUI Platform v2.0</span>
+        <span>•</span>
+        <span>Connected to Ruia-Buddy Database</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODAL: GEMINI API KEY CONFIGURATION
+       ======================================================================== -->
+  <div class="modal-backdrop" id="apiKeyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">🔑 Google Gemini API Configuration</h3>
+        <button class="modal-close-btn" onclick="closeModal('apiKeyModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.92rem; color: #475569; margin-bottom: 16px;">
+          RUI utilizes Google Gemini 2.5 to generate personalized 7-day study plans, ATS resume feedback, spaced revision roadmaps, and custom unit quizzes.
+        </p>
+        <div class="form-group">
+          <label for="geminiKeyInput">Gemini API Key</label>
+          <input type="password" id="geminiKeyInput" placeholder="AIzaSy..." autocomplete="off">
+          <p style="font-size: 0.78rem; color: #64748B; margin-top: 6px;">
+            Need a key? Generate one at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: #800000; font-weight: 600;">Google AI Studio</a>.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('apiKeyModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveGeminiKey()">Save Key</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: SCHOLAR PROFILE SWITCHER
+       ======================================================================== -->
+  <div class="modal-backdrop" id="scholarModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">👨‍🎓 Scholar Profile Management</h3>
+        <button class="modal-close-btn" onclick="closeModal('scholarModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.92rem; color: #475569; margin-bottom: 16px;">
+          Select an enrolled Ruia scholar to load their personalized courses, assignments, and academic telemetry.
+        </p>
+        <div class="form-group">
+          <label for="scholarModalSelect">Select Registered Scholar</label>
+          <select id="scholarModalSelect"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('scholarModal')">Close</button>
+        <button class="btn btn-primary" id="scholarModalSwitchBtn">Switch Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: NEW ASSIGNMENT
+       ======================================================================== -->
+  <div class="modal-backdrop" id="newAssignmentModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">📝 Create Coursework Assignment</h3>
+        <button class="modal-close-btn" onclick="closeModal('newAssignmentModal')">&times;</button>
+      </div>
+      <form id="newAssignmentForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="assignTitle">Assignment Title</label>
+            <input type="text" id="assignTitle" placeholder="e.g. Graph Algorithms Lab Report" required>
+          </div>
+          <div class="form-group">
+            <label for="assignmentCourse">Autonomous Course</label>
+            <select id="assignmentCourse" required>
+              <option value="">-- Choose Course --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="assignDueDate">Submission Due Date</label>
+            <input type="date" id="assignDueDate" required>
+          </div>
+          <div class="form-group">
+            <label for="assignPriority">Priority Tier</label>
+            <select id="assignPriority">
+              <option value="Normal">Normal</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High Urgency</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('newAssignmentModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: NEW EXAM TARGET
+       ======================================================================== -->
+  <div class="modal-backdrop" id="newExamModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">🎯 Add Examination Milestone</h3>
+        <button class="modal-close-btn" onclick="closeModal('newExamModal')">&times;</button>
+      </div>
+      <form id="newExamForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="examNameInput">Examination Title</label>
+            <input type="text" id="examNameInput" placeholder="e.g. Semester V Autonomous Finals" required>
+          </div>
+          <div class="form-group">
+            <label for="examCourse">Course / Subject</label>
+            <select id="examCourse">
+              <option value="">-- Choose Course (Optional) --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="examDateInput">Scheduled Exam Date</label>
+            <input type="date" id="examDateInput" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('newExamModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Register Milestone</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Hub -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Client Application Logic -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
